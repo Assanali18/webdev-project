@@ -1,5 +1,5 @@
-# webdev-project
-<h1><em>Zing</em> - Social Network</h1>
+# Zing</em> - Social Network
+
 
 Zing is an innovative social network developed as part of the Web Development Spring 24 course. This project is a platform where users can share posts, comments and likes, as well as communicate via the built-in messenger. Our goal is to demonstrate development skills using modern technologies such as Django, Angular and Websockets, as well as providing young people with a platform to express themselves and communicate.
 
