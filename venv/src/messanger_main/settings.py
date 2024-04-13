@@ -28,6 +28,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 AUTH_USER_MODEL = 'account.Account'
 AUTHENTICATION_BACKENDS = ( 
     'django.contrib.auth.backends.AllowAllUsersModelBackend', 
@@ -134,6 +137,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760
 
 
 # Static files (CSS, JavaScript, Images)
