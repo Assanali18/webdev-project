@@ -2,10 +2,10 @@ import {Comment} from './Comment';
 
 export interface Post {
   id: number;
-  title: string;
-  image: File;
-  likes: number;
+  body: string;
+  image: string;
+  created: string;
   // usersLiked: string[];
   // comments: Comment [];
-  author: string;
+  user: string;
 }

@@ -4,10 +4,11 @@ from .models import Users
 
 
 class UserSerializer(serializers.ModelSerializer):
+    posts = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Users
-        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email', 'posts')
         read_only_fields = ('username', )
 
 

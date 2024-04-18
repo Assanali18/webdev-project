@@ -13,16 +13,19 @@ export class PostService {
   constructor(private http: HttpClient) {
   }
 
-  createPost(post: Post): Observable<any> {
-    return this.http.post(POST_API + 'create', post);
+  createPost(body:string, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('body', body);
+    formData.append('image', file, file.name);
+    return this.http.post('http://localhost:8000/posts/', formData);
   }
 
   getAllPosts(): Observable<any> {
     return this.http.get('http://localhost:8000/posts/');
   }
 
-  getPostForCurrentUser(): Observable<any> {
-    return this.http.get(POST_API + 'user/posts');
+  getPostForCurrentUser(id:string): Observable<any> {
+    return this.http.get(`http://localhost:8000/user/${id}/posts`);
   }
 
   deletePost(id: number): Observable<any> {

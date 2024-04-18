@@ -1,16 +1,31 @@
-# from django.shortcuts import render
-# from django.views.generic import ListView
-# from rest_framework import status
-# from rest_framework.decorators import api_view
-# from rest_framework.response import Response
-# from post import serializers
-# from post.models import Post
-#
-#
-# @api_view(["GET"])
-# def post_list(request):
-#     if request.method == "GET":
-#         posts = Post.objects.all()
-#         serializer = serializers.PostSerializer(posts, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-#
+from rest_framework import generics
+
+from . import permissions
+from rest_framework import permissions
+
+from .models import Post
+from .permissions import IsOwnerOrReadOnly
+from .serializers import PostSerializer
+
+
+class PostList(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
+
+
+class PostById(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']
+        return Post.objects.filter(user_id=user_id)

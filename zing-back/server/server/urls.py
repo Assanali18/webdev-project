@@ -5,7 +5,8 @@ from django.contrib import admin
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 
-
+import post
+from post import views
 from users.views import UserViewSet, UserLogIn, UserSignUpAPIView
 
 router = DefaultRouter()
@@ -18,7 +19,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
     path('sign-up/', UserSignUpAPIView.as_view(), name='user-sign-up'),
-    # path('posts/', post_list)
+    path('posts/', views.PostList.as_view()),
+    path('posts/<int:id>', views.PostDetail.as_view()),
+    path('user/<int:pk>/posts', views.PostById.as_view()),
 ]
 
 if settings.DEBUG:

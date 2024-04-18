@@ -3,4 +3,8 @@
     margin: 1rem auto;
     width: 80%;
   }
-  
+
+
+img.mat-mdc-card-image.mdc-card__media {
+  width: 80%;
+}

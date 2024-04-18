@@ -34,6 +34,7 @@ export class IndexComponent implements OnInit {
         // this.getImagesToPosts(this.posts);
         // this.getCommentsToPosts(this.posts);
         this.isPostsLoaded = true;
+        this.isUserDataLoaded=true;
       });
     //
     // this.userService.getCurrentUser()
