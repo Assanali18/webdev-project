@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
 import {TokenStorageService} from '../../service/token-storage.service';
 import {NotificationService} from '../../service/notification.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -12,11 +13,13 @@ import {NotificationService} from '../../service/notification.service';
 export class RegisterComponent implements OnInit {
 
   public registerForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
     private notificationService: NotificationService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
   }
 
@@ -27,30 +30,28 @@ export class RegisterComponent implements OnInit {
   createRegisterForm(): FormGroup {
     return this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      username: ['', Validators.compose([Validators.required])],
-      firstname: ['', Validators.compose([Validators.required])],
-      lastname: ['', Validators.compose([Validators.required])],
-      password: ['', Validators.compose([Validators.required])],
-      confirmPassword: ['', Validators.compose([Validators.required])],
+      username: ['', Validators.compose([Validators.required,
+        Validators.pattern('^[a-zA-Z0-9]*$')])],
+      first_name: ['', Validators.compose([Validators.required])],
+      last_name: ['', Validators.compose([Validators.required])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      password2: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
     });
   }
-
   submit(): void {
-    console.log(this.registerForm.value);
-
-    this.authService.register({
-      email: this.registerForm.value.email,
-      username: this.registerForm.value.username,
-      firstname: this.registerForm.value.firstname,
-      lastname: this.registerForm.value.lastname,
-      password: this.registerForm.value.password,
-      confirmPassword: this.registerForm.value.confirmPassword,
-    }).subscribe(data => {
-      console.log(data);
-      this.notificationService.showSnackBar('Successfully Registered!');
-    }, error => {
-      this.notificationService.showSnackBar('Something went wrong during registration');
-    });
+    if (this.registerForm.valid && this.registerForm.value.password === this.registerForm.value.password2) {
+      this.authService.registerUser(this.registerForm.value).subscribe(
+        response => {
+          this.notificationService.showSnackBar("Success register")
+          this.router.navigate(['/login']);
+        },
+        error => {
+          this.notificationService.showSnackBar("No Success register")
+        }
+      );
+    } else {
+      this.notificationService.showSnackBar("Form is invalid or passwords are not matched")
+    }
   }
 
 }

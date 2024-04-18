@@ -1,31 +1,30 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { User } from '../../models/User';
 import { TokenStorageService } from '../../service/token-storage.service';
 import { UserService } from '../../service/user.service';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css'
 })
-export class NavigationComponent {
-
+export class NavigationComponent implements OnInit{
   isLoggedIn:boolean = false;
   isDataLoaded:boolean = false;
   user!: User;
 
   constructor(
-    private tokenService: TokenStorageService,
+    private tokenStorage: TokenStorageService,
     private userService: UserService,
     private router: Router,
+    private route: ActivatedRoute,
   ){}
 
   ngOnInit(){
-    this.isLoggedIn = !!this.tokenService.getToken();
-
+    this.isLoggedIn = !!this.tokenStorage.getUserId();
     if(this.isLoggedIn){
-      this.userService.getCurrentUser()
+      this.userService.getUserProfile(this.tokenStorage.getUserId())
         .subscribe(data => {
           this.user = data;
           this.isDataLoaded = true;
@@ -33,8 +32,12 @@ export class NavigationComponent {
     }
   }
 
+isLogged(){
+    return !!this.tokenStorage.getUserId();
+}
   logout(){
-    this.tokenService.logOut();
+    this.isLoggedIn = false;
+    localStorage.removeItem('userData');
     this.router.navigate(['/login']);
   }
 

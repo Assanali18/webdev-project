@@ -18,7 +18,7 @@ export class PostService {
   }
 
   getAllPosts(): Observable<any> {
-    return this.http.get(POST_API + 'all');
+    return this.http.get('http://localhost:8000/posts/');
   }
 
   getPostForCurrentUser(): Observable<any> {

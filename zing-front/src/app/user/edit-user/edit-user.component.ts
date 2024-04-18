@@ -29,11 +29,11 @@ export class EditUserComponent {
   createProfileForm(): FormGroup{
     return this.fb.group({
       firstName: [
-        this.data.user.firstname,
+        this.data.user.first_name,
         Validators.compose([Validators.required])
       ],
       lastName:[
-        this.data.user.lastname,
+        this.data.user.last_name,
         Validators.compose([Validators.required])
       ],
       bio:[
@@ -52,8 +52,8 @@ export class EditUserComponent {
   }
 
   private updateUser():User{
-    this.data.user.firstName = this.profileEditForm.value.firstName;
-    this.data.user.lastname = this.profileEditForm.value.lastname;
+    this.data.user.first_name = this.profileEditForm.value.firstName;
+    this.data.user.last_name = this.profileEditForm.value.lastName;
     this.data.user.bio = this.profileEditForm.value.bio;
     return this.data.user;
   }

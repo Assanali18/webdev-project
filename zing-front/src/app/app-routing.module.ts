@@ -12,8 +12,8 @@ import { AddPostComponent } from './user/add-post/add-post.component';
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: 'main', component: IndexComponent}, 
-  {path: 'profile', component: ProfileComponent, children: [
+  {path: 'main', component: IndexComponent},
+  {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuardService], children: [
     {path: '', component: UserPostsComponent},
     {path: 'add', component: AddPostComponent},
   ]},

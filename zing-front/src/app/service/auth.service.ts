@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {LoggedInUser, UserCredentials} from "../models/Auth";
+import {User} from "../models/User";
 
-const AUTH_API = '';
+const AUTH_API = 'http://localhost:8000/auth/jwt/create/';
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +13,25 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  public login(user:any): Observable<any> {
-    return this.http.post(AUTH_API + 'signin', {
-      username: user.username,
-      password: user.password
-    });
+
+
+  logIn(user:UserCredentials): Observable<any> {
+    return this.http.post(
+      'http://127.0.0.1:8000/api-user-login/', {
+        username:user.username,
+        password: user.password
+      }
+    );
   }
 
-  public register(user:any): Observable<any> {
-    return this.http.post(AUTH_API + 'signup', {
-      email: user.email,
-      username: user.username,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      password: user.password,
-      confirmPassword: user.confirmPassword
-    });
+
+  setLoggedInUser(userData: LoggedInUser) {
+    if (localStorage.getItem('userData') !== JSON.stringify(userData)) {
+      localStorage.setItem('userData', JSON.stringify(userData));
+    }
+  }
+
+  registerUser(user:any) {
+    return this.http.post<any>('http://localhost:8000/sign-up/', user);
   }
 }

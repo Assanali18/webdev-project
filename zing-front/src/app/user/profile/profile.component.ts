@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { User } from '../../models/User';
 import { TokenStorageService } from '../../service/token-storage.service';
 import { PostService } from '../../service/post.service';
@@ -7,13 +7,14 @@ import { NotificationService } from '../../service/notification.service';
 import { ImageUploadService } from '../../service/image-upload.service';
 import { UserService } from '../../service/user.service';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
   user!: User;
   selectedFile!: File;
   userProfileImage!: File;
@@ -27,18 +28,17 @@ export class ProfileComponent {
     private notificationService: NotificationService,
     private imageService: ImageUploadService,
     private userService: UserService,
+    private route: ActivatedRoute,
+    private tokenStorage: TokenStorageService,
   ){}
 
   ngOnInit(){
-    this.userService.getCurrentUser()
+    const userId = this.tokenStorage.getUserId();
+    this.userService.getUserProfile(userId)
     .subscribe(data =>{
       this.user = data;
+      console.log(this.user)
       this.isUserDataLoaded = true;
-    });
-
-    this.imageService.getProfileImage()
-    .subscribe(data =>{
-      this.userProfileImage = data.imageBytes;
     });
   }
 
@@ -61,19 +61,18 @@ export class ProfileComponent {
     this.dialog.open(EditUserComponent, dialogUserEditConfig);
   }
 
-  formatImage(img: any): any {
-    if (img == null) {
-      return null;
-    }
-    return 'data:image/jpeg;base64,' + img;
-  }
 
-  onUpload(){
-    if(this.selectedFile != null){
-      this.imageService.uploadImageToUser(this.selectedFile)
-      .subscribe(() =>{
-        this.notificationService.showSnackBar('Profile image updated succesfully');
-      })
+  onUpload() {
+    if (this.selectedFile != null) {
+      this.userService.updateUserImageProfile(this.user, this.selectedFile)
+        .subscribe(() => {
+          this.notificationService.showSnackBar('Profile image updated successfully');
+          // @ts-ignore
+          this.selectedFile = null;
+        }, error => {
+          console.error('Error updating profile:', error);
+          this.notificationService.showSnackBar('Failed to update profile image');
+        });
     }
   }
 

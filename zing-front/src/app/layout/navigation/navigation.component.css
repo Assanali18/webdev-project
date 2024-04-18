@@ -1,9 +1,22 @@
 .spacer {
     flex: 1 1 auto;
   }
-  
+
   #menu-item button {
     display: block;
     margin: 0 auto;
   }
-  
+
+ul {
+  list-style: none;
+}
+a {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    color: #666;
+  }
+
+}

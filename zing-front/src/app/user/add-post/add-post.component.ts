@@ -38,39 +38,37 @@ export class AddPostComponent implements OnInit {
     });
   }
 
-  submit(): void {
-
-    this.postService.createPost({
-      title: this.postForm.value.title,
-      caption: this.postForm.value.caption,
-      location: this.postForm.value.location,
-      id: 0,
-      usersLiked: [],
-      comments: [],
-      likes: 0
-    }).subscribe(data => {
-      this.createdPost = data;
-      console.log(data);
-
-      if (this.createdPost.id != null) {
-        this.imageUploadService.uploadImageToPost(this.selectedFile, this.createdPost.id)
-          .subscribe(() => {
-            this.notificationService.showSnackBar('Post created successfully');
-            this.isPostCreated = true;
-            this.router.navigate(['/profile']);
-          });
-      }
-    });
-  }
-
-  onFileSelected(event:any): void {
-    this.selectedFile = event.target.files[0];
-
-    const reader = new FileReader();
-    reader.readAsDataURL(this.selectedFile);
-    reader.onload = (e) => {
-      this.previewImgURL = reader.result;
-    };
-  }
+  // submit(): void {
+  //
+  //   this.postService.createPost({
+  //     title: this.postForm.value.title,
+  //     id: 0,
+  //     // usersLiked: [],
+  //     // comments: [],
+  //     likes: 0
+  //   }).subscribe(data => {
+  //     this.createdPost = data;
+  //     console.log(data);
+  //
+  //     if (this.createdPost.id != null) {
+  //       this.imageUploadService.uploadImageToPost(this.selectedFile, this.createdPost.id)
+  //         .subscribe(() => {
+  //           this.notificationService.showSnackBar('Post created successfully');
+  //           this.isPostCreated = true;
+  //           this.router.navigate(['/profile']);
+  //         });
+  //     }
+  //   });
+  // }
+  //
+  // onFileSelected(event:any): void {
+  //   this.selectedFile = event.target.files[0];
+  //
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(this.selectedFile);
+  //   reader.onload = (e) => {
+  //     this.previewImgURL = reader.result;
+  //   };
+  // }
 
 }

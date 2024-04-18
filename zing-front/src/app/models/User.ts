@@ -2,8 +2,9 @@ export interface User {
     id: number;
     email: string;
     username: string;
-    firstname: string;
-    lastname: string;
+    first_name: string;
+    last_name: string;
     bio: string;
+    profile_pic: string;
   }
-  
+

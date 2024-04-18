@@ -5,7 +5,7 @@
         <div class="justify-content-center">
           <div></div>
           <mat-form-field appearance="outline">
-            <mat-label>Email Address</mat-label>
+            <mat-label>User name</mat-label>
             <input matInput
                    formControlName="username">
           </mat-form-field>
@@ -17,15 +17,14 @@
                    formControlName="password">
           </mat-form-field>
         </div>
-  
+
         <div id="controls" class="row">
           <button style="width: 20%" [disabled]="loginForm.invalid" (click)="submit()" mat-flat-button color="green">
             Login
           </button>
-  
+
           <a routerLink="/register">Register</a>
         </div>
       </div>
     </form>
   </div>
-  
