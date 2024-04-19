@@ -6,7 +6,7 @@ export interface Post {
   image: string;
   created: string;
   userLiked: string[];
-  // comments: Comment [];
+  comments: Comment [];
   user: string;
   likes:number;
 }

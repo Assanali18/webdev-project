@@ -5,10 +5,11 @@ from .models import Users
 
 class UserSerializer(serializers.ModelSerializer):
     posts = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    comments = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Users
-        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email', 'posts')
+        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email', 'posts', 'comments')
         read_only_fields = ('username', )
 
 

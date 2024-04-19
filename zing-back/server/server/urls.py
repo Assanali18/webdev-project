@@ -9,6 +9,7 @@ import post
 from post import views
 from post.views import like_post
 from users.views import UserViewSet, UserLogIn, UserSignUpAPIView
+from comment.views import CommentList, CommentDetail
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
@@ -24,6 +25,8 @@ urlpatterns = [
     path('posts/<int:pk>', views.PostDetail.as_view()),
     path('user/<int:pk>/posts', views.PostById.as_view()),
     path('posts/<int:pk>/like/', like_post, name='like-post'),
+    path('posts/<int:pk>/comments/', CommentList.as_view()),
+    path('comments/<int:pk>/', CommentDetail.as_view()),
 ]
 
 if settings.DEBUG:

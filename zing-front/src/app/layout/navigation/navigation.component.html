@@ -3,6 +3,8 @@
     <div class="p-2"><a  class="btn btn-primary" [routerLink]="['/profile']">Profile</a></div>
     <div class="p-2"><a  class="btn btn-primary" [routerLink]="['/main']">Posts</a></div>
     <div class="p-2"> <a class="btn btn-primary"  (click) = "logout()">Logout</a></div>
+    <span class="spacer"></span>
+    <h3 *ngIf="isDataLoaded">{{this.user.first_name}} {{this.user.last_name}}</h3>
   </div>
 
 </mat-toolbar>

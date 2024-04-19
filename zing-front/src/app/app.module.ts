@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from './material-module';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {authInterceptorProviders, AuthInterceptorService} from './helper/auth-interceptor.service';
 import {authErrorInterceptorProviders} from './helper/error-interceptor.service';
 import { LoginComponent } from './auth/login/login.component';
@@ -31,14 +31,15 @@ import { AddPostComponent } from './user/add-post/add-post.component';
     EditUserComponent,
     AddPostComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MaterialModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MaterialModule,
+        FormsModule,
+    ],
 
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},

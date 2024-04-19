@@ -76,14 +76,14 @@ export class UserPostsComponent{
     return 'data:image/jpeg;base64,' + img;
   }
 
-  // deleteComment(commentId: number|undefined, postIndex: number, commentIndex: number): void {
-  //   const post = this.posts[postIndex];
-  //
-  //   this.commentService.deleteComment(commentId)
-  //     .subscribe(() => {
-  //       this.notificationService.showSnackBar('Comment removed');
-  //       post.comments.splice(commentIndex, 1);
-  //     });
-  // }
+  deleteComment(commentId: number|undefined, postIndex: number, commentIndex: number): void {
+    const post = this.posts[postIndex];
+
+    this.commentService.deleteComment(commentId)
+      .subscribe(() => {
+        this.notificationService.showSnackBar('Comment removed');
+        post.comments.splice(commentIndex, 1);
+      });
+  }
 
 }

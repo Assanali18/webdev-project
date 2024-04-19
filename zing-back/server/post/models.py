@@ -15,4 +15,4 @@ class Post(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return f"Post by {self.user}"
+        return f"Post by {self.user} id: {self.id}"

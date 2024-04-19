@@ -6,6 +6,7 @@ import {UserService} from '../../service/user.service';
 import {CommentService} from '../../service/comment.service';
 import {NotificationService} from '../../service/notification.service';
 import {ImageUploadService} from '../../service/image-upload.service';
+import {TokenStorageService} from "../../service/token-storage.service";
 
 @Component({
   selector: 'app-index',
@@ -18,12 +19,14 @@ export class IndexComponent implements OnInit {
   posts!: Post[];
   isUserDataLoaded = false;
   user!: User;
+  message!: string;
 
   constructor(private postService: PostService,
               private userService: UserService,
               private commentService: CommentService,
               private notificationService: NotificationService,
-              private imageService: ImageUploadService
+              private imageService: ImageUploadService,
+              private tokenService: TokenStorageService,
   ) { }
 
   ngOnInit(): void {
@@ -32,17 +35,16 @@ export class IndexComponent implements OnInit {
         console.log(data);
         this.posts = data;
         // this.getImagesToPosts(this.posts);
-        // this.getCommentsToPosts(this.posts);
+        this.getCommentsToPosts(this.posts);
         this.isPostsLoaded = true;
-        this.isUserDataLoaded=true;
       });
-    //
-    // this.userService.getCurrentUser()
-    //   .subscribe(data => {
-    //     console.log(data);
-    //     this.user = data;
-    //     this.isUserDataLoaded = true;
-    //   })
+    const userId = this.tokenService.getUserId();
+     this.userService.getUserProfile(userId)
+       .subscribe(data => {
+         console.log(data);
+         this.user = data;
+         this.isUserDataLoaded = true;
+       })
   }
 
 
@@ -55,52 +57,50 @@ export class IndexComponent implements OnInit {
   //   });
   // }
   //
-  // getCommentsToPosts(posts: Post[]): void {
-  //   posts.forEach(p => {
-  //     this.commentService.getCommentsToPost(p.id)
-  //       .subscribe(data => {
-  //         p.comments = data
-  //       })
-  //   });
-  // }
+  getCommentsToPosts(posts: Post[]): void {
+    posts.forEach(p => {
+      this.commentService.getCommentsToPost(p.id)
+        .subscribe(data => {
+          p.comments = data
+        })
+    });
+  }
 
   likePost(postId: number, postIndex: number): void {
     const  post = this.posts[postIndex];
     console.log(post);
 
     if (!post.userLiked.includes(this.user.username)) {
-      this.postService.likePost(postId)
+      this.postService.likePost(post)
         .subscribe(() => {
           post.userLiked.push(this.user.username);
           this.notificationService.showSnackBar('Liked!');
+
         });
     } else {
-      this.postService.likePost(postId)
+      this.postService.likePost(post)
         .subscribe(() => {
           const index = post.userLiked?.indexOf(this.user.username, 0);
           if (index > -1) {
             post.userLiked.splice(index, 1);
           }
+
         });
     }
   }
   //
-  // postComment(message: string, postId: number, postIndex: number): void {
-  //   const post = this.posts[postIndex];
-  //
-  //   console.log(post);
-  //   this.commentService.addToCommentToPost(postId, message)
-  //     .subscribe(data => {
-  //       console.log(data);
-  //       post.comments.push(data);
-  //     });
-  // }
-  //
-  // formatImage(img: any): any {
-  //   if (img == null) {
-  //     return null;
-  //   }
-  //   return 'data:image/jpeg;base64,' + img;
-  // }
+  postComment(message: string, postId: number, postIndex: number): void {
+    if (!message.trim()) return;
+    const post = this.posts[postIndex];
+
+    console.log(post);
+    this.commentService.addToCommentToPost(post, message)
+      .subscribe(data => {
+        console.log(data);
+        post.comments.push(data);
+        this.message = '';
+      });
+  }
+
 
 }

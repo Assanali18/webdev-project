@@ -32,7 +32,9 @@ export class PostService {
     return this.http.delete(`http://localhost:8000/posts/${post.id}`, post);
   }
 
-  likePost(postId: number): Observable<any> {
-    return this.http.post(`http://localhost:8000/posts/${postId}/like/`, {});
+  likePost(post: Post): Observable<any> {
+    return this.http.post(`http://localhost:8000/posts/${post.id}/like/`, post);
   }
+
+
 }
