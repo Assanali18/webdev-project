@@ -8,10 +8,10 @@ from rest_framework.authtoken.models import Token
 
 class Users(AbstractUser):
     bio = models.TextField(blank=True)
-    profile_pic = models.ImageField(blank=True, max_length=1000)
+    profile_pic = models.ImageField(upload_to='avatars', blank=True, max_length=1000)
 
     def __str__(self):
-        return self.username
+        return self.usernamecd
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
