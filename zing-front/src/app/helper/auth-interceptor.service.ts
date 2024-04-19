@@ -7,16 +7,17 @@ const TOKEN_HEADER_KEY = 'Authorization';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-
   constructor(private tokenService: TokenStorageService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    if (userData.token) {
+    const userToken = this.tokenService.getToken();
+
+
+    if (userToken) {
       req = req.clone({
         setHeaders: {
-          Authorization: `Token ${userData.token}`
+          Authorization: `Token ${userToken}`
         }
       });
     }

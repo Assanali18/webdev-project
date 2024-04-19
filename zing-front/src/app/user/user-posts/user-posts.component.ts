@@ -16,6 +16,7 @@ export class UserPostsComponent{
   isUserPostsLoaded = false;
   posts!: Post [];
 
+
   constructor(private postService: PostService,
               private imageService: ImageUploadService,
               private commentService: CommentService,

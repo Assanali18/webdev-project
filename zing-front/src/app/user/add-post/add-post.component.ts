@@ -41,6 +41,8 @@ export class AddPostComponent implements OnInit {
       this.createdPost = data;
       console.log(data);
       this.isPostCreated = true;
+      this.notificationService.showSnackBar('Post created successfully');
+      this.router.navigate(['/profile']);
       // if (this.createdPost.id != null) {
       //   this.imageUploadService.uploadImageToPost(this.selectedFile, this.createdPost.id)
       //     .subscribe(() => {

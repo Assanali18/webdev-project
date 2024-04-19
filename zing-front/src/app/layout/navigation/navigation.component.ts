@@ -36,8 +36,7 @@ isLogged(){
     return !!this.tokenStorage.getUserId();
 }
   logout(){
-    this.isLoggedIn = false;
-    localStorage.removeItem('userData');
+    this.tokenStorage.logOut();
     this.router.navigate(['/login']);
   }
 

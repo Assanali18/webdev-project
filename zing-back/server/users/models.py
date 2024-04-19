@@ -11,7 +11,7 @@ class Users(AbstractUser):
     profile_pic = models.ImageField(upload_to='avatars', blank=True, max_length=1000)
 
     def __str__(self):
-        return self.usernamecd
+        return self.username
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
