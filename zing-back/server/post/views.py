@@ -1,4 +1,6 @@
-from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework import generics, status
+from rest_framework.decorators import api_view
 
 from . import permissions
 from rest_framework import permissions
@@ -29,3 +31,16 @@ class PostById(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['pk']
         return Post.objects.filter(user_id=user_id)
+
+
+@api_view(['POST'])
+def like_post(request, pk):
+    post = generics.get_object_or_404(Post, pk=pk)
+    user = request.user
+
+    if post.userLiked.filter(id=user.id).exists():
+        post.userLiked.remove(user)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    else:
+        post.userLiked.add(user)
+        return Response(status=status.HTTP_201_CREATED)

@@ -28,11 +28,11 @@ export class PostService {
     return this.http.get(`http://localhost:8000/user/${id}/posts`);
   }
 
-  deletePost(id: number): Observable<any> {
-    return this.http.post(POST_API + id + '/delete', null);
+  deletePost(post: Post): Observable<any> {
+    return this.http.delete(`http://localhost:8000/posts/${post.id}`, post);
   }
 
-  likePost(id: number, username: string): Observable<any> {
-    return this.http.post(POST_API + id + '/' + username + '/like', null);
+  likePost(postId: number): Observable<any> {
+    return this.http.post(`http://localhost:8000/posts/${postId}/like/`, {});
   }
 }

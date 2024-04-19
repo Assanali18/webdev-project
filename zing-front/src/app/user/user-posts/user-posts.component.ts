@@ -57,17 +57,17 @@ export class UserPostsComponent{
   //   });
   // }
 
-  // removePost(post: Post, index: number): void {
-  //   console.log(post);
-  //   const result = confirm('Do you really want to delete this post?');
-  //   if (result) {
-  //     this.postService.deletePost(post.id)
-  //       .subscribe(() => {
-  //         this.posts.splice(index, 1);
-  //         this.notificationService.showSnackBar('Post deleted');
-  //       });
-  //   }
-  // }
+  removePost(post: Post, index: number): void {
+    console.log(post);
+    const result = confirm('Do you really want to delete this post?');
+    if (result) {
+      this.postService.deletePost(post)
+        .subscribe(() => {
+          this.posts.splice(index, 1);
+          this.notificationService.showSnackBar('Post deleted');
+        });
+    }
+  }
 
   formatImage(img: any): any {
     if (img == null) {

@@ -7,6 +7,7 @@ from rest_framework.routers import DefaultRouter
 
 import post
 from post import views
+from post.views import like_post
 from users.views import UserViewSet, UserLogIn, UserSignUpAPIView
 
 router = DefaultRouter()
@@ -20,8 +21,9 @@ urlpatterns = [
     re_path(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False)),
     path('sign-up/', UserSignUpAPIView.as_view(), name='user-sign-up'),
     path('posts/', views.PostList.as_view()),
-    path('posts/<int:id>', views.PostDetail.as_view()),
+    path('posts/<int:pk>', views.PostDetail.as_view()),
     path('user/<int:pk>/posts', views.PostById.as_view()),
+    path('posts/<int:pk>/like/', like_post, name='like-post'),
 ]
 
 if settings.DEBUG:

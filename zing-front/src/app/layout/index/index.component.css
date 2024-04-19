@@ -12,7 +12,7 @@
   }
 
   .is-liked {
-    color: darkred;
+    color: red;
   }
 
   .not-liked {
@@ -21,4 +21,8 @@
 
 img.mat-mdc-card-image.mdc-card__media {
   width: 80%;
+}
+
+.liked {
+  color: red;
 }

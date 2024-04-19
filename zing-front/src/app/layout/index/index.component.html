@@ -14,7 +14,7 @@
 
       <mat-card-actions align="start">
 
-        <button *ngIf="isUserDataLoaded" mat-button >
+        <button *ngIf="isUserDataLoaded" mat-button (click)="likePost(post.id, i)"  >
           <mat-icon>favorite</mat-icon> Like</button>
       </mat-card-actions>
 <!--  -->
