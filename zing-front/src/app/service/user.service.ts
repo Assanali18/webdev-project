@@ -16,6 +16,9 @@ export class UserService {
   getUserProfile(userId: string|null): Observable<any> {
     return this.http.get(`http://127.0.0.1:8000/api/users/${userId}/`);
   }
+  getUserProfileByUsername(username: string|null): Observable<any> {
+    return this.http.get(`http://127.0.0.1:8000/users/${username}/`);
+  }
 
   updateUserImageProfile(user: User, file: File): Observable<any> {
     const formData = new FormData();
@@ -24,7 +27,7 @@ export class UserService {
   }
 
   getUserById(id: number): Observable<any> {
-    return this.http.get(USER_API + id);
+    return this.http.get(`http://localhost:8000/profile/${id}`);
   }
 
   getCurrentUser(): Observable<any> {
@@ -39,4 +42,10 @@ export class UserService {
     };
     return this.http.put(`http://localhost:8000/api/users/${user.id}/`, userData);
   }
+
+  searchUsers(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8000/users/search/?q=${query}`);
+  }
+
+
 }

@@ -6,9 +6,12 @@ from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 
 import post
+from friends.views import SendFriendRequestView, accept_friend_request
+from notification.views import NotificationListView
 from post import views
-from post.views import like_post
-from users.views import UserViewSet, UserLogIn, UserSignUpAPIView
+from post.views import like_post, PostByUsername
+from search.views import UserSearchView
+from users.views import UserViewSet, UserLogIn, UserSignUpAPIView, GenericUserDetail
 from comment.views import CommentList, CommentDetail
 
 router = DefaultRouter()
@@ -27,6 +30,14 @@ urlpatterns = [
     path('posts/<int:pk>/like/', like_post, name='like-post'),
     path('posts/<int:pk>/comments/', CommentList.as_view()),
     path('comments/<int:pk>/', CommentDetail.as_view()),
+    path('notifications/', NotificationListView.as_view()),
+    path('users/search/', UserSearchView.as_view(), name='user-search'),
+    path('users/<str:username>/', GenericUserDetail.as_view(), name='public-user'),
+    path('users/<str:username>/posts/', PostByUsername.as_view(), name='public-user'),
+    path('users/<str:username>/comments', GenericUserDetail.as_view(), name='public-user'),
+    path('friend-requests/send/', SendFriendRequestView.as_view(), name='public-user'),
+    path('friend-requests/list/', GenericUserDetail.as_view(), name='public-user'),
+    path('accept-friend-request/', accept_friend_request, name='public-user'),
 ]
 
 if settings.DEBUG:

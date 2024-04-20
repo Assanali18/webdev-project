@@ -69,12 +69,6 @@ export class UserPostsComponent{
     }
   }
 
-  formatImage(img: any): any {
-    if (img == null) {
-      return null;
-    }
-    return 'data:image/jpeg;base64,' + img;
-  }
 
   deleteComment(commentId: number|undefined, postIndex: number, commentIndex: number): void {
     const post = this.posts[postIndex];

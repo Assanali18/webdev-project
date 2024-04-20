@@ -1,0 +1,16 @@
+<ul *ngFor="let notification of notifications">
+  <li>{{notification.from_user.username}} {{notification.type}} your post
+    <span *ngIf="notification.type ==='comment'">
+      : {{notification.comment_text}}
+    </span>
+    at {{notification.created | date: 'medium'}}
+  </li>
+
+  <img *ngIf="notification.post; else acceptButton" [src]="notification.post.image" alt="post image">
+
+  <ng-template #acceptButton>
+    <button *ngIf="notification.type === 'follow' && !isAccepted" (click)="acceptRequest(notification.from_user.id)">Accept</button>
+    <button *ngIf="notification.type === 'follow' && isAccepted" (click)="acceptRequest(notification.from_user.id)">Accepted</button>
+  </ng-template>
+
+</ul>

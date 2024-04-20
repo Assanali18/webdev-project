@@ -18,6 +18,9 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { UserPostsComponent } from './user/user-posts/user-posts.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
 import { AddPostComponent } from './user/add-post/add-post.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { SearchComponent } from './search/search.component';
+import { PublicUserComponent } from './user/public-user/public-user.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { AddPostComponent } from './user/add-post/add-post.component';
     UserPostsComponent,
     EditUserComponent,
     AddPostComponent,
+    NotificationsComponent,
+    SearchComponent,
+    PublicUserComponent,
   ],
     imports: [
         BrowserModule,

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, generics, status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -33,6 +34,13 @@ class UserLogIn(ObtainAuthToken):
 class GenericUserDetail(generics.RetrieveUpdateAPIView):
     queryset = Users.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'username'
+
+    def get_object(self):
+        username = self.kwargs.get('username')
+        user = get_object_or_404(Users, username=username)
+        return user
 
 
 class UserSignUpAPIView(APIView):

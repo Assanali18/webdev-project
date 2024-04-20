@@ -1,0 +1,8 @@
+<div>
+  <input type="text" (input)="onSearch(searchInput)" [(ngModel)]="searchInput"  placeholder="Search users...">
+  <ul>
+    <li *ngFor="let user of users" [routerLink]="['/users', user.username]">
+      {{ user.username }} - {{ user.email }}
+    </li>
+  </ul>
+</div>

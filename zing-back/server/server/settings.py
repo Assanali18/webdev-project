@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     'users',
     'post',
     'comment',
+    'notification',
+    'search',
+    'friends',
 
 ]
 

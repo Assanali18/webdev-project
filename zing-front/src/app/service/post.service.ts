@@ -28,6 +28,10 @@ export class PostService {
     return this.http.get(`http://localhost:8000/user/${id}/posts`);
   }
 
+  getPostForUser(username:string): Observable<any> {
+    return this.http.get(`http://localhost:8000/users/${username}/posts`);
+  }
+
   deletePost(post: Post): Observable<any> {
     return this.http.delete(`http://localhost:8000/posts/${post.id}`, post);
   }

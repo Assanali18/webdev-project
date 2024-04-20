@@ -7,6 +7,9 @@ import { AuthGuardService } from './helper/auth-guard.service';
 import { ProfileComponent } from './user/profile/profile.component';
 import { UserPostsComponent } from './user/user-posts/user-posts.component';
 import { AddPostComponent } from './user/add-post/add-post.component';
+import {NotificationsComponent} from "./notifications/notifications.component";
+import {SearchComponent} from "./search/search.component";
+import {PublicUserComponent} from "./user/public-user/public-user.component";
 
 // add canActivate: [AuthGuardService] for main, profile all
 const routes: Routes = [
@@ -17,6 +20,10 @@ const routes: Routes = [
     {path: '', component: UserPostsComponent, canActivate: [AuthGuardService]},
     {path: 'add', component: AddPostComponent, canActivate: [AuthGuardService]},
   ]},
+  {path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuardService]},
+  {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
+  {path: 'users/:username', component: PublicUserComponent},
+
   {path: '', redirectTo: 'main', pathMatch: 'full'}
 ];
 

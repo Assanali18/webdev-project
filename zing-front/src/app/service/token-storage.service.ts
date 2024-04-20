@@ -30,6 +30,18 @@ export class TokenStorageService {
     }
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
+  public getUser(): any {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const userDataString = localStorage.getItem('userData');
+      let userUsername
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        userUsername = userData.username;
+      }
+
+      return userUsername;
+    }
+  }
 
   public getUserId(){
     if (typeof window !== 'undefined' && window.localStorage) {
