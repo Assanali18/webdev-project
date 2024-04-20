@@ -4,7 +4,8 @@ from rest_framework.response import Response
 
 from notification.models import Notification
 from users.models import Users
-from .models import FriendRequest
+from users.serializers import UserSerializer
+from .models import FriendRequest, Friendship
 from .serializers import FriendRequestSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -25,7 +26,7 @@ class SendFriendRequestView(generics.CreateAPIView):
             type='follow',
             to_user=to_user,
             from_user=request.user,
-            post=None,
+            post=None
         )
         return Response(status=status.HTTP_201_CREATED)
 
@@ -41,6 +42,20 @@ class FriendRequestListView(generics.ListAPIView):
 @api_view(['POST'])
 def accept_friend_request(request):
     user_id = request.data.get('userId')
-    from_user = get_object_or_404(Users, pk=user_id)
-    to_user = request.user
-    return Response({'status': 'Friend request accepted'})
+    friend_request = get_object_or_404(FriendRequest, from_user_id=user_id, to_user=request.user, is_accepted=False)
+
+    if friend_request:
+        friend_request.accept()
+        return Response({'status': 'Friend request accepted'})
+    else:
+        return Response({'error': 'No such friend request'}, status=400)
+
+
+class FriendListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        friends = user.friends.all() | user.friends_of.all()
+        return friends.distinct()

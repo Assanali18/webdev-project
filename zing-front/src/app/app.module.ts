@@ -21,6 +21,7 @@ import { AddPostComponent } from './user/add-post/add-post.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { SearchComponent } from './search/search.component';
 import { PublicUserComponent } from './user/public-user/public-user.component';
+import { FriendsComponent } from './profile/friends/friends.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { PublicUserComponent } from './user/public-user/public-user.component';
     NotificationsComponent,
     SearchComponent,
     PublicUserComponent,
+    FriendsComponent,
   ],
     imports: [
         BrowserModule,

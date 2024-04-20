@@ -6,7 +6,7 @@ from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 
 import post
-from friends.views import SendFriendRequestView, accept_friend_request
+from friends.views import SendFriendRequestView, accept_friend_request, FriendListView
 from notification.views import NotificationListView
 from post import views
 from post.views import like_post, PostByUsername
@@ -38,6 +38,7 @@ urlpatterns = [
     path('friend-requests/send/', SendFriendRequestView.as_view(), name='public-user'),
     path('friend-requests/list/', GenericUserDetail.as_view(), name='public-user'),
     path('accept-friend-request/', accept_friend_request, name='public-user'),
+    path('friends/', FriendListView.as_view(), name='friend_list'),
 ]
 
 if settings.DEBUG:

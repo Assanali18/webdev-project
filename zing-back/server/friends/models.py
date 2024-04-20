@@ -19,8 +19,8 @@ class FriendRequest(models.Model):
 
 
 class Friendship(models.Model):
-    user = models.ForeignKey(Users, related_name="friend_set", on_delete=models.CASCADE)
-    friend = models.ForeignKey(Users, related_name="friend_of_set", on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, related_name="friends", on_delete=models.CASCADE)
+    friend = models.ForeignKey(Users, related_name="friends_of", on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user', 'friend')
