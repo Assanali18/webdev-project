@@ -30,6 +30,7 @@ export class IndexComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.postService.getAllPosts()
       .subscribe(data => {
         console.log(data);
@@ -38,6 +39,7 @@ export class IndexComponent implements OnInit {
         this.getCommentsToPosts(this.posts);
         this.isPostsLoaded = true;
       });
+
     const userId = this.tokenService.getUserId();
      this.userService.getUserProfile(userId)
        .subscribe(data => {

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {LoggedInUser, UserCredentials} from "../models/Auth";
 import {User} from "../models/User";
+import {TokenStorageService} from "./token-storage.service";
 
 const AUTH_API = 'http://localhost:8000/auth/jwt/create/';
 
@@ -11,7 +12,7 @@ const AUTH_API = 'http://localhost:8000/auth/jwt/create/';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tokenService: TokenStorageService) { }
 
 
 
@@ -23,6 +24,7 @@ export class AuthService {
       }
     );
   }
+
 
 
   setLoggedInUser(userData: LoggedInUser) {

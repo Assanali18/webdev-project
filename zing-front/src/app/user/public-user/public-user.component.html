@@ -1,8 +1,10 @@
-<div *ngIf="isUserDataLoaded" class="user-profile">
+<div *ngIf="isUserDataLoaded; else loading" class="user-profile">
   <h1>Profile</h1>
   <div style="text-align: right">
-    <button *ngIf="!isSent" mat-flat-button color="primary" (click)="friendRequest(user.id)">Add friend</button>
-    <button *ngIf="isSent"  mat-flat-button color="primary">Sent</button>
+    <button  *ngIf="!friendStatus.is_friend && !friendStatus.friend_request_sent" mat-flat-button color="primary" (click)="friendRequest(user.id)">Add friend</button>
+    <button *ngIf="friendStatus.is_friend"  mat-flat-button color="primary" disabled>Already your friend</button>
+    <button *ngIf="friendStatus.friend_request_sent"  mat-flat-button color="primary" disabled>Sent</button>
+    <button mat-flat-button color="primary" (click)="openFriendDialog()">Friend List</button>
   </div>
   <div style="padding-top: 2rem" class="row">
     <div class="col">
@@ -34,7 +36,7 @@
         <mat-card-actions align="start">
 
           <button *ngIf="isUserDataLoaded" mat-button (click)="likePost(post.id, i)"  >
-            <mat-icon [ngClass]="{'liked': post.userLiked.includes(currentUser)}">favorite</mat-icon> Like</button>
+            <mat-icon [ngClass]="{'liked': post.userLiked.includes(currentUserName)}">favorite</mat-icon> Like</button>
           <p>{{post.userLiked.length}}</p>
         </mat-card-actions>
 
@@ -55,3 +57,7 @@
 
   </div>
 </div>
+
+<ng-template #loading>
+  gay
+</ng-template>

@@ -37,6 +37,7 @@ isLogged(){
 }
   logout(){
     this.tokenStorage.logOut();
+
     this.router.navigate(['/login']);
   }
 

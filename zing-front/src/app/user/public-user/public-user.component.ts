@@ -8,6 +8,9 @@ import {CommentService} from "../../service/comment.service";
 import {NotificationService} from "../../service/notification.service";
 import {TokenStorageService} from "../../service/token-storage.service";
 import {FriendRequestService} from "../../service/friend-request.service";
+import {Friend, FriendStatus} from "../../models/Friend";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {FriendsComponent} from "../friends/friends.component";
 
 @Component({
   selector: 'app-public-user',
@@ -20,8 +23,8 @@ export class PublicUserComponent implements OnInit{
   isUserPostsLoaded = false;
   posts!: Post[];
   message!: string;
-  currentUser = this.tokenService.getUser();
-  isSent = false;
+  currentUserName = this.tokenService.getUserName();
+  friendStatus!: FriendStatus;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -30,14 +33,24 @@ export class PublicUserComponent implements OnInit{
     private notificationService: NotificationService,
     private tokenService: TokenStorageService,
     private friendService: FriendRequestService,
-    ) {}
+    private dialog: MatDialog,
+    ) {
+
+  }
 
   ngOnInit(){
+
+
     this.route.params.subscribe(params => {
       const username = params['username'];
       this.userService.getUserProfileByUsername(username).subscribe(user => {
         this.user = user;
-        this.isUserDataLoaded = true;
+
+        this.friendService.getFriendRequestStatus(username)
+          .subscribe(status=>{
+            this.friendStatus = status;
+            this.isUserDataLoaded = true;
+          })
       });
 
       this.postService.getPostForUser(username)
@@ -47,6 +60,9 @@ export class PublicUserComponent implements OnInit{
           this.isUserPostsLoaded = true;
         })
     });
+
+
+
   }
 
   postComment(message: string, postId: number, postIndex: number): void {
@@ -66,17 +82,17 @@ export class PublicUserComponent implements OnInit{
     const  post = this.posts[postIndex];
     console.log(post);
 
-    if (!post.userLiked.includes(this.currentUser)) {
+    if (!post.userLiked.includes(this.currentUserName)) {
       this.postService.likePost(post)
         .subscribe(() => {
-          post.userLiked.push(this.currentUser);
+          post.userLiked.push(this.currentUserName);
           this.notificationService.showSnackBar('Liked!');
 
         });
     } else {
       this.postService.likePost(post)
         .subscribe(() => {
-          const index = post.userLiked?.indexOf(this.currentUser, 0);
+          const index = post.userLiked?.indexOf(this.currentUserName, 0);
           if (index > -1) {
             post.userLiked.splice(index, 1);
           }
@@ -86,10 +102,21 @@ export class PublicUserComponent implements OnInit{
   }
 
   friendRequest(id:number){
-    this.friendService.sendFriendRequest(id).subscribe(()=>
-      this.isSent = true
-    )
+    this.friendService.sendFriendRequest(id).subscribe(()=>{
+      this.friendStatus.friend_request_sent = true;
+      this.friendStatus.is_friend = false;
+    });
   };
+
+  openFriendDialog(){
+    const dialogFriendConfig = new MatDialogConfig();
+    dialogFriendConfig.width = '800px';
+    dialogFriendConfig.data = {
+      user: this.user
+    };
+    this.dialog.open(FriendsComponent, dialogFriendConfig);
+  }
+
 
 
 }

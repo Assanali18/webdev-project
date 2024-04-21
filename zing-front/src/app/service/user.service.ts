@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {User} from "../models/User";
+import {Friend} from "../models/Friend";
+import {TokenStorageService} from "./token-storage.service";
 
 const USER_API = 'http://127.0.0.1:8000/api/users/28/';
 
@@ -10,7 +12,7 @@ const USER_API = 'http://127.0.0.1:8000/api/users/28/';
 })
 export class UserService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private tokenService: TokenStorageService) { }
 
 
   getUserProfile(userId: string|null): Observable<any> {
@@ -26,8 +28,8 @@ export class UserService {
     return this.http.put(`http://localhost:8000/api/users/${user.id}/`, formData);
   }
 
-  getUserById(id: number): Observable<any> {
-    return this.http.get(`http://localhost:8000/profile/${id}`);
+  isCurrentUser(username: string|null): Observable<boolean> {
+    return of(this.tokenService.getUserName() === username);
   }
 
   getCurrentUser(): Observable<any> {
@@ -45,6 +47,10 @@ export class UserService {
 
   searchUsers(query: string): Observable<any[]> {
     return this.http.get<any[]>(`http://localhost:8000/users/search/?q=${query}`);
+  }
+
+  getFriendList(){
+    return this.http.get<Friend[]>('http://localhost:8000/friends/')
   }
 
 

@@ -1,1 +1,12 @@
-<p>friends works!</p>
+<div *ngIf="friends;else no_friends">
+  <ul *ngFor="let friend of friends">
+    <li>
+      <img src="http://127.0.0.1:8000/{{friend.profile_pic}}">
+      <p (click)="closeModal()" [routerLink]="['/users', friend.username]">{{friend.username}} </p>
+    </li>
+  </ul>
+</div>
+
+<ng-template #no_friends>
+  No friends
+</ng-template>

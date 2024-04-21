@@ -10,8 +10,10 @@ import { AddPostComponent } from './user/add-post/add-post.component';
 import {NotificationsComponent} from "./notifications/notifications.component";
 import {SearchComponent} from "./search/search.component";
 import {PublicUserComponent} from "./user/public-user/public-user.component";
+import {FriendsComponent} from "./user/friends/friends.component";
+import {UsernameResolver} from "./service/username-resolver.service";
 
-// add canActivate: [AuthGuardService] for main, profile all
+
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
@@ -22,7 +24,7 @@ const routes: Routes = [
   ]},
   {path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuardService]},
   {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
-  {path: 'users/:username', component: PublicUserComponent},
+  { path: 'users/:username', component: PublicUserComponent, resolve: { isCurrentUser: UsernameResolver }, canActivate: [AuthGuardService] },
 
   {path: '', redirectTo: 'main', pathMatch: 'full'}
 ];

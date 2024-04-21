@@ -8,6 +8,8 @@ import { ImageUploadService } from '../../service/image-upload.service';
 import { UserService } from '../../service/user.service';
 import { EditUserComponent } from '../edit-user/edit-user.component';
 import {ActivatedRoute} from "@angular/router";
+import {FriendsComponent} from "../friends/friends.component";
+import {Friend} from "../../models/Friend";
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +22,7 @@ export class ProfileComponent implements OnInit{
   userProfileImage!: File;
   previewImgURL: any;
   isUserDataLoaded = false;
+  friends!: Friend[];
 
   constructor(
     private tokenService: TokenStorageService,
@@ -59,6 +62,15 @@ export class ProfileComponent implements OnInit{
       user: this.user
     };
     this.dialog.open(EditUserComponent, dialogUserEditConfig);
+  }
+
+  openFriendDialog(){
+    const dialogFriendConfig = new MatDialogConfig();
+    dialogFriendConfig.width = '800px';
+    dialogFriendConfig.data = {
+      user: this.user
+    };
+    this.dialog.open(FriendsComponent, dialogFriendConfig);
   }
 
 

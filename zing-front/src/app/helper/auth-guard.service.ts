@@ -8,9 +8,7 @@ import {TokenStorageService} from '../service/token-storage.service';
 })
 export class AuthGuardService implements CanActivate{
 
-  constructor(private router: Router,
-              private tokenService: TokenStorageService
-              ) { }
+  constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (typeof window !== 'undefined' && window.localStorage && localStorage.getItem('userData')) {

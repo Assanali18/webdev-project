@@ -30,7 +30,7 @@ export class TokenStorageService {
     }
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
-  public getUser(): any {
+  public getUserName(): any {
     if (typeof window !== 'undefined' && window.localStorage) {
       const userDataString = localStorage.getItem('userData');
       let userUsername
@@ -38,9 +38,18 @@ export class TokenStorageService {
         const userData = JSON.parse(userDataString);
         userUsername = userData.username;
       }
-
       return userUsername;
     }
+  }
+
+  public getCurrentUser(){
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const currentUser = localStorage.getItem(USER_KEY);
+      if(currentUser){
+        return JSON.parse(currentUser);
+      }
+    }
+    return undefined;
   }
 
   public getUserId(){
@@ -60,5 +69,6 @@ export class TokenStorageService {
 
   logOut(): void {
     localStorage.clear();
+
   }
 }

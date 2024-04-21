@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
         this.authService.setLoggedInUser(data);
         this.tokenStorage.saveUser(data);
         this.tokenStorage.saveToken(data.token)
-        this.router.navigateByUrl(`/profile`);
+        this.router.navigateByUrl(`/main`);
     },error: (error) => {
         console.error(error);
         this.notificationService.showSnackBar('Unable to log in with provided credentials.');

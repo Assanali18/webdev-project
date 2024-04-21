@@ -1,12 +1,15 @@
+from django.db.models import Q
+from django.http import Http404
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from notification.models import Notification
 from users.models import Users
 from users.serializers import UserSerializer
 from .models import FriendRequest, Friendship
-from .serializers import FriendRequestSerializer
+from .serializers import FriendRequestSerializer, FriendSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
@@ -52,10 +55,44 @@ def accept_friend_request(request):
 
 
 class FriendListView(generics.ListAPIView):
-    serializer_class = UserSerializer
+    serializer_class = FriendSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         user = self.request.user
-        friends = user.friends.all() | user.friends_of.all()
-        return friends.distinct()
+        friends_ids = Friendship.objects.filter(
+            Q(user=user) | Q(friend=user)
+        ).values_list('friend_id', flat=True) | Friendship.objects.filter(
+            Q(friend=user)
+        ).values_list('user_id', flat=True)
+        return Users.objects.filter(id__in=friends_ids).distinct()
+
+
+class FriendshipStatusView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, username):
+        current_user = request.user
+        try:
+            target_user = Users.objects.get(username=username)
+        except Users.DoesNotExist:
+            raise Http404
+
+        is_friend = Friendship.objects.filter(
+            (Q(user=current_user) & Q(friend=target_user)) |
+            (Q(user=target_user) & Q(friend=current_user))
+        ).exists()
+
+        friend_request_sent = FriendRequest.objects.filter(
+            from_user=current_user, to_user=target_user, is_accepted=False
+        ).exists()
+
+        friend_request_received = FriendRequest.objects.filter(
+            from_user=target_user, to_user=current_user, is_accepted=False
+        ).exists()
+
+        return Response({
+            'is_friend': is_friend,
+            'friend_request_sent': friend_request_sent,
+            'friend_request_received': friend_request_received
+        })
