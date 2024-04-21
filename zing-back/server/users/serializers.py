@@ -53,6 +53,7 @@ class UserSignUpSerializer(serializers.ModelSerializer):
 
 
 class SimpleUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Users
         fields = ['id', 'username', 'profile_pic']

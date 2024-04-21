@@ -21,6 +21,7 @@ import {NotificationsComponent} from './notifications/notifications.component';
 import {SearchComponent} from './search/search.component';
 import {PublicUserComponent} from './user/public-user/public-user.component';
 import {FriendsComponent} from "./user/friends/friends.component";
+import { EditPostComponent } from './user/edit-post/edit-post.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {FriendsComponent} from "./user/friends/friends.component";
     SearchComponent,
     PublicUserComponent,
     FriendsComponent,
+    EditPostComponent,
   ],
     imports: [
         BrowserModule,

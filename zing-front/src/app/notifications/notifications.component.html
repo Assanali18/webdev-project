@@ -13,10 +13,7 @@
   <img *ngIf="notification.type === 'like' || notification.type === 'comment' ; else acceptButton" [src]="notification.post.image" alt="post image">
 
   <ng-template #acceptButton  >
-    <div *ngIf="friendStatus">
-      <button *ngIf="notification.type === 'follow' && friendStatus.friend_request_received" (click)="acceptRequest(notification.from_user.id, i)">Accept</button>
-      <button *ngIf="notification.type === 'follow' && friendStatus.is_friend" disabled >Accepted</button>
-    </div>
+      <button *ngIf="notification.type === 'follow'" (click)="acceptRequest(notification.from_user.id, i)">Accept</button>
   </ng-template>
 
 </ul>

@@ -5,6 +5,10 @@ import {CommentService} from '../../service/comment.service';
 import {NotificationService} from '../../service/notification.service';
 import {TokenStorageService} from "../../service/token-storage.service";
 import {UserService} from "../../service/user.service";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {EditUserComponent} from "../edit-user/edit-user.component";
+import {AddPostComponent} from "../add-post/add-post.component";
+import {EditPostComponent} from "../edit-post/edit-post.component";
 
 @Component({
   selector: 'app-user-posts',
@@ -22,6 +26,7 @@ export class UserPostsComponent implements OnInit {
               private notificationService: NotificationService,
               private tokenStorage: TokenStorageService,
               private userService: UserService,
+              private dialog: MatDialog,
   ) {
   }
 
@@ -48,6 +53,11 @@ export class UserPostsComponent implements OnInit {
     }
   }
 
+  updatePost(post:Post){
+    this.openEditDialog(post)
+  }
+
+
 
   deleteComment(commentId: number | undefined, postIndex: number, commentIndex: number): void {
     const post = this.posts[postIndex];
@@ -57,6 +67,15 @@ export class UserPostsComponent implements OnInit {
         this.notificationService.showSnackBar('Comment removed');
         post.comments.splice(commentIndex, 1);
       });
+  }
+
+  openEditDialog(post:Post){
+    const dialogPostEditConfig = new MatDialogConfig();
+    dialogPostEditConfig.width = '800px';
+    dialogPostEditConfig.data = {
+      post:post
+    };
+    this.dialog.open(EditPostComponent, dialogPostEditConfig);
   }
 
 }

@@ -42,4 +42,10 @@ export class PostService {
   getCommentsToPost(postId: number | undefined): Observable<any> {
     return this.http.get(`http://127.0.0.1:8000/api/posts/${postId}/comments/`);
   }
+  updatePost(post:Post, file:File, postId:number): Observable<any>{
+    const formData = new FormData();
+    formData.append('body', post.body);
+    formData.append('image', file, file.name);
+    return this.http.put(`http://localhost:8000/api/posts/${postId}`, formData);
+  }
 }

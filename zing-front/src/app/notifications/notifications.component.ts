@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NotificationService} from "../service/notification.service";
 import {Notification} from "../models/Notification";
-import {HttpClient} from "@angular/common/http";
 import {FriendRequestService} from "../service/friend-request.service";
 import {FriendStatus} from "../models/Friend";
-import {TokenStorageService} from "../service/token-storage.service";
-import {UserService} from "../service/user.service";
 
 @Component({
   selector: 'app-notifications',
@@ -19,8 +16,6 @@ export class NotificationsComponent implements OnInit{
 
   constructor(
     private notificationService: NotificationService,
-    private http: HttpClient,
-    private userService: UserService,
     private friendService: FriendRequestService,
     ) {}
 

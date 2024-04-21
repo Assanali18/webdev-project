@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../models/User";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Post} from "../../models/Post";
 import {PostService} from "../../service/post.service";
 import {NotificationService} from "../../service/notification.service";
@@ -33,6 +33,7 @@ export class PublicUserComponent implements OnInit {
     private tokenService: TokenStorageService,
     private friendService: FriendRequestService,
     private dialog: MatDialog,
+    private router: Router,
   ) {
 
   }
@@ -40,14 +41,20 @@ export class PublicUserComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const username = params['username'];
-      this.userService.getUserProfileByUsername(username).subscribe(user => {
-        this.user = user;
+      this.userService.getUserProfileByUsername(username).subscribe({
+        next: (user: User) => {
+          this.user = user;
 
-        this.userService.getFriendRequestStatus(username)
-          .subscribe(status => {
-            this.friendStatus = status;
-            this.isUserDataLoaded = true;
-          })
+          this.userService.getFriendRequestStatus(username)
+            .subscribe(status => {
+              this.friendStatus = status;
+              this.isUserDataLoaded = true;
+            })
+        },
+        error: (error) => {
+          this.notificationService.showSnackBar('This username doesnt exist');
+          this.router.navigate(['/main']);
+        }
       });
 
       this.userService.getPostsByUsername(username)

@@ -5,10 +5,11 @@ from users.models import Users
 from .models import FriendRequest, Friendship
 
 
-class FriendRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FriendRequest
-        fields = ['id', 'from_user', 'to_user', 'is_accepted']
+class FriendRequestSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    from_user = serializers.CharField(read_only=True)
+    to_user = serializers.CharField()
+    is_accepted = serializers.BooleanField(read_only=True)
 
     def get_is_friend(self, obj):
         user = self.context['request'].user
@@ -26,7 +27,8 @@ class FriendRequestSerializer(serializers.ModelSerializer):
         return FriendRequest.objects.filter(from_user=obj.from_user, to_user=user, is_accepted=False).exists()
 
 
-class FriendSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Users
-        fields = ('id', 'username', 'profile_pic')
+class FriendSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    username = serializers.CharField()
+    profile_pic = serializers.ImageField()
+

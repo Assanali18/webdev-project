@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
         window.location.reload();
       }, error: (error) => {
         console.error(error);
-        this.notificationService.showSnackBar('Unable to log in with provided credentials.');
+        this.notificationService.showSnackBar('Wrong password or username.');
       }
     })
   }

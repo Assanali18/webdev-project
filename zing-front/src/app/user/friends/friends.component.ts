@@ -18,7 +18,7 @@ export class FriendsComponent implements OnInit{
 
   ngOnInit(){
     this.friends = this.data.user.friends;
-    console.log(this.data.user.friends)
+    console.log(this.friends)
   }
   closeModal(){
     this.dialogRef.close();

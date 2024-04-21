@@ -69,31 +69,32 @@ class FriendListView(generics.ListAPIView):
         return Users.objects.filter(id__in=friends_ids).distinct()
 
 
-class FriendshipStatusView(APIView):
-    permission_classes = [IsAuthenticated]
+@api_view(["GET"])
+def get_friend_status(request, username):
+    current_user = request.user
 
-    def get(self, request, username):
-        current_user = request.user
-        try:
-            target_user = Users.objects.get(username=username)
-        except Users.DoesNotExist:
-            raise Http404
+    try:
+        target_user = Users.objects.get(username=username)
+    except Users.DoesNotExist:
+        raise Http404
 
-        is_friend = Friendship.objects.filter(
-            (Q(user=current_user) & Q(friend=target_user)) |
-            (Q(user=target_user) & Q(friend=current_user))
-        ).exists()
+    is_friend = Friendship.objects.filter(
+        (Q(user=current_user) & Q(friend=target_user)) |
+        (Q(user=target_user) & Q(friend=current_user))
+    ).exists()
 
-        friend_request_sent = FriendRequest.objects.filter(
-            from_user=current_user, to_user=target_user, is_accepted=False
-        ).exists()
+    friend_request_sent = FriendRequest.objects.filter(
+        from_user=current_user, to_user=target_user, is_accepted=False
+    ).exists()
 
-        friend_request_received = FriendRequest.objects.filter(
-            from_user=target_user, to_user=current_user, is_accepted=False
-        ).exists()
+    friend_request_received = FriendRequest.objects.filter(
+        from_user=target_user, to_user=current_user, is_accepted=False
+    ).exists()
 
-        return Response({
-            'is_friend': is_friend,
-            'friend_request_sent': friend_request_sent,
-            'friend_request_received': friend_request_received
-        })
+    return Response({
+        'is_friend': is_friend,
+        'friend_request_sent': friend_request_sent,
+        'friend_request_received': friend_request_received
+    })
+
+

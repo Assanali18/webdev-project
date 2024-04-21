@@ -1,4 +1,4 @@
-<div *ngIf="friends;else no_friends">
+<div *ngIf="friends.length;else no_friends">
   <ul *ngFor="let friend of friends">
     <li>
       <img src="http://127.0.0.1:8000/{{friend.profile_pic}}">
@@ -8,5 +8,5 @@
 </div>
 
 <ng-template #no_friends>
-  No friends
+  No friend
 </ng-template>
