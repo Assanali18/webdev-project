@@ -1,11 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Post} from '../../models/Post';
 import {User} from '../../models/User';
 import {PostService} from '../../service/post.service';
 import {UserService} from '../../service/user.service';
-import {CommentService} from '../../service/comment.service';
 import {NotificationService} from '../../service/notification.service';
-import {ImageUploadService} from '../../service/image-upload.service';
 import {TokenStorageService} from "../../service/token-storage.service";
 
 @Component({
@@ -23,11 +21,10 @@ export class IndexComponent implements OnInit {
 
   constructor(private postService: PostService,
               private userService: UserService,
-              private commentService: CommentService,
               private notificationService: NotificationService,
-              private imageService: ImageUploadService,
               private tokenService: TokenStorageService,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
 
@@ -35,41 +32,30 @@ export class IndexComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
         this.posts = data;
-        // this.getImagesToPosts(this.posts);
         this.getCommentsToPosts(this.posts);
         this.isPostsLoaded = true;
       });
 
     const userId = this.tokenService.getUserId();
-     this.userService.getUserProfile(userId)
-       .subscribe(data => {
-         console.log(data);
-         this.user = data;
-         this.isUserDataLoaded = true;
-       })
+    this.userService.getUserProfile(userId)
+      .subscribe(data => {
+        console.log(data);
+        this.user = data;
+        this.isUserDataLoaded = true;
+      })
   }
 
-
-  // getImagesToPosts(posts: Post[]): void {
-  //   posts.forEach(p => {
-  //     this.imageService.getImageToPost(p.id)
-  //       .subscribe((data: { imageBytes: File | undefined; }) => {
-  //         p.image = data.imageBytes;
-  //       })
-  //   });
-  // }
-  //
   getCommentsToPosts(posts: Post[]): void {
     posts.forEach(p => {
-      this.commentService.getCommentsToPost(p.id)
+      this.postService.getCommentsToPost(p.id)
         .subscribe(data => {
           p.comments = data
         })
     });
   }
 
-  likePost(postId: number, postIndex: number): void {
-    const  post = this.posts[postIndex];
+  likePost(postIndex: number): void {
+    const post = this.posts[postIndex];
     console.log(post);
 
     if (!post.userLiked.includes(this.user.username)) {
@@ -86,23 +72,21 @@ export class IndexComponent implements OnInit {
           if (index > -1) {
             post.userLiked.splice(index, 1);
           }
-
         });
     }
   }
-  //
-  postComment(message: string, postId: number, postIndex: number): void {
+
+  postComment(message: string, postIndex: number): void {
     if (!message.trim()) return;
     const post = this.posts[postIndex];
 
     console.log(post);
-    this.commentService.addToCommentToPost(post, message)
+    this.postService.addToCommentToPost(post, message)
       .subscribe(data => {
         console.log(data);
         post.comments.push(data);
         this.message = '';
       });
   }
-
 
 }

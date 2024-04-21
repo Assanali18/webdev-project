@@ -16,7 +16,6 @@ export class TokenStorageService {
     localStorage.setItem(TOKEN_KEY, token);
   }
 
-
   public getToken() {
     if (typeof window !== 'undefined' && window.localStorage) {
       return localStorage.getItem(TOKEN_KEY);
@@ -24,13 +23,14 @@ export class TokenStorageService {
     return undefined;
   }
 
+
   public saveUser(user:any): void {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.removeItem(USER_KEY);
     }
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
-  public getUserName(): any {
+  public getUserName(){
     if (typeof window !== 'undefined' && window.localStorage) {
       const userDataString = localStorage.getItem('userData');
       let userUsername
@@ -66,9 +66,8 @@ export class TokenStorageService {
 
   }
 
-
   logOut(): void {
-    localStorage.clear();
-
+    window.localStorage.clear();
+    window.location.reload();
   }
 }

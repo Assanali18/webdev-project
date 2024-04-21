@@ -1,4 +1,4 @@
-<ul *ngFor="let notification of notifications">
+<ul *ngFor="let notification of notifications; let i = index">
   <li>{{notification.from_user.username}} {{notification.type}}
     <span *ngIf="notification.type ==='comment'">
       your post: {{notification.comment_text}}
@@ -14,7 +14,7 @@
 
   <ng-template #acceptButton  >
     <div *ngIf="friendStatus">
-      <button *ngIf="notification.type === 'follow' && friendStatus.friend_request_received" (click)="acceptRequest(notification.from_user.id, notification.from_user.username)">Accept</button>
+      <button *ngIf="notification.type === 'follow' && friendStatus.friend_request_received" (click)="acceptRequest(notification.from_user.id, i)">Accept</button>
       <button *ngIf="notification.type === 'follow' && friendStatus.is_friend" disabled >Accepted</button>
     </div>
   </ng-template>

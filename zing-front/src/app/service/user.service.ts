@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {User} from "../models/User";
-import {Friend} from "../models/Friend";
+import {Friend, FriendStatus} from "../models/Friend";
 import {TokenStorageService} from "./token-storage.service";
 
-const USER_API = 'http://127.0.0.1:8000/api/users/28/';
+const USER_API = 'http://127.0.0.1:8000/api/users/';
 
 @Injectable({
   providedIn: 'root'
@@ -16,25 +16,22 @@ export class UserService {
 
 
   getUserProfile(userId: string|null): Observable<any> {
-    return this.http.get(`http://127.0.0.1:8000/api/users/${userId}/`);
+    return this.http.get(`${USER_API}${userId}/`);
   }
   getUserProfileByUsername(username: string|null): Observable<any> {
-    return this.http.get(`http://127.0.0.1:8000/users/${username}/`);
+    return this.http.get(`${USER_API}${username}/`);
   }
 
   updateUserImageProfile(user: User, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('profile_pic', file, file.name);
-    return this.http.put(`http://localhost:8000/api/users/${user.id}/`, formData);
+    return this.http.put(`${USER_API}${user.id}/`, formData);
   }
 
   isCurrentUser(username: string|null): Observable<boolean> {
     return of(this.tokenService.getUserName() === username);
   }
 
-  getCurrentUser(): Observable<any> {
-    return this.http.get(USER_API);
-  }
 
   updateUser(user: any): Observable<any> {
     const userData = {
@@ -42,16 +39,16 @@ export class UserService {
       last_name: user.last_name,
       bio: user.bio,
     };
-    return this.http.put(`http://localhost:8000/api/users/${user.id}/`, userData);
+    return this.http.put(`${USER_API}${user.id}/`, userData);
   }
 
-  searchUsers(query: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8000/users/search/?q=${query}`);
+
+  getPostsByUsername(username:string): Observable<any> {
+    return this.http.get(`${USER_API}${username}/posts/`);
   }
 
-  getFriendList(){
-    return this.http.get<Friend[]>('http://localhost:8000/friends/')
+  getFriendRequestStatus(username:string): Observable<FriendStatus> {
+    return this.http.get<FriendStatus>(`${USER_API}${username}/friendship-status/`)
   }
-
 
 }

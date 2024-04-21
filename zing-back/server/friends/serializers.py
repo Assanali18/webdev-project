@@ -30,5 +30,3 @@ class FriendSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = ('id', 'username', 'profile_pic')
-
-

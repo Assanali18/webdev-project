@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
 import {TokenStorageService} from '../../service/token-storage.service';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../service/notification.service';
-import {LoggedInUser, UserCredentials} from "../../models/Auth";
+import {UserCredentials} from "../../models/Auth";
 
 
 @Component({
@@ -40,14 +40,14 @@ export class LoginComponent implements OnInit {
   }
 
 
-  logInUser(user:UserCredentials){
+  logInUser(user: UserCredentials) {
     this.authService.logIn(user).subscribe({
       next: (data) => {
-        this.authService.setLoggedInUser(data);
         this.tokenStorage.saveUser(data);
         this.tokenStorage.saveToken(data.token)
         this.router.navigateByUrl(`/main`);
-    },error: (error) => {
+        window.location.reload();
+      }, error: (error) => {
         console.error(error);
         this.notificationService.showSnackBar('Unable to log in with provided credentials.');
       }
@@ -55,10 +55,10 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    if(this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       console.log(this.loginForm.errors);
       this.notificationService.showSnackBar('Login is invalid');
-    }else{
+    } else {
       this.logInUser({
         username: this.loginForm.value.username,
         password: this.loginForm.value.password

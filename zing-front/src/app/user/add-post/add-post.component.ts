@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Post} from '../../models/Post';
 import {PostService} from '../../service/post.service';
-import {ImageUploadService} from '../../service/image-upload.service';
 import {NotificationService} from '../../service/notification.service';
 import {Router} from '@angular/router';
 
@@ -20,7 +19,6 @@ export class AddPostComponent implements OnInit {
   previewImgURL: any;
 
   constructor(private postService: PostService,
-              private imageUploadService: ImageUploadService,
               private notificationService: NotificationService,
               private router: Router,
               private fb: FormBuilder) {
@@ -43,18 +41,11 @@ export class AddPostComponent implements OnInit {
       this.isPostCreated = true;
       this.notificationService.showSnackBar('Post created successfully');
       this.router.navigate(['/profile']);
-      // if (this.createdPost.id != null) {
-      //   this.imageUploadService.uploadImageToPost(this.selectedFile, this.createdPost.id)
-      //     .subscribe(() => {
-      //       this.notificationService.showSnackBar('Post created successfully');
-      //
-      //       this.router.navigate(['/profile']);
-      //     });
-      // }
     });
   }
-  //
-  onFileSelected(event:any): void {
+
+
+  onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
 
     const reader = new FileReader();

@@ -1,32 +1,32 @@
-from rest_framework.response import Response
 from rest_framework import generics, status
+from rest_framework import permissions
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from notification.models import Notification
-from . import permissions
-from rest_framework import permissions
-
 from .models import Post
 from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer
 
 
-class PostList(generics.ListCreateAPIView):
+class GenericPostCreateListView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 
-class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+class GenericPostDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
 
 
-class PostById(generics.ListAPIView):
+class PostByUserId(generics.ListAPIView):
     serializer_class = PostSerializer
 
     def get_queryset(self):

@@ -1,15 +1,19 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {Notification} from "../models/Notification";
+
+const NOTIF_URL = 'http://localhost:8000/api/notifications/'
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
 
-  constructor(private snackbar: MatSnackBar, private http: HttpClient) { }
+
+  constructor(private snackbar: MatSnackBar, private http: HttpClient) {
+  }
 
   public showSnackBar(message: string): void {
     this.snackbar.open(message, undefined, {
@@ -18,6 +22,6 @@ export class NotificationService {
   }
 
   getNotifications(): Observable<Notification[]> {
-    return this.http.get<Notification[]>('http://localhost:8000/notifications/');
+    return this.http.get<Notification[]>(NOTIF_URL);
   }
 }

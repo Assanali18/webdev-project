@@ -1,61 +1,40 @@
 import {Component, OnInit} from '@angular/core';
 import {Post} from '../../models/Post';
 import {PostService} from '../../service/post.service';
-import {ImageUploadService} from '../../service/image-upload.service';
 import {CommentService} from '../../service/comment.service';
 import {NotificationService} from '../../service/notification.service';
 import {TokenStorageService} from "../../service/token-storage.service";
+import {UserService} from "../../service/user.service";
 
 @Component({
   selector: 'app-user-posts',
   templateUrl: './user-posts.component.html',
   styleUrls: ['./user-posts.component.css']
 })
-export class UserPostsComponent{
+export class UserPostsComponent implements OnInit {
 
   isUserPostsLoaded = false;
   posts!: Post [];
 
 
   constructor(private postService: PostService,
-              private imageService: ImageUploadService,
               private commentService: CommentService,
               private notificationService: NotificationService,
               private tokenStorage: TokenStorageService,
-              ) {
+              private userService: UserService,
+  ) {
   }
 
   ngOnInit(): void {
-    const userId = this.tokenStorage.getUserId();
-    console.log(userId);
-    this.postService.getPostForCurrentUser(userId)
+    const username = this.tokenStorage.getUserName()
+    this.userService.getPostsByUsername(username)
       .subscribe(data => {
         console.log(data);
         this.posts = data;
-        // this.getImagesToPosts(this.posts);
-        // this.getCommentsToPosts(this.posts);
         this.isUserPostsLoaded = true;
       });
   }
 
-  // getImagesToPosts(posts: Post[]): void {
-  //   posts.forEach(p => {
-  //     this.imageService.getImageToPost(p.id)
-  //       .subscribe((data: { imageBytes: File | undefined; }) => {
-  //         p.image = data.imageBytes;
-  //       });
-  //   });
-  // }
-
-
-  // getCommentsToPosts(posts: Post[]): void {
-  //   posts.forEach(p => {
-  //     this.commentService.getCommentsToPost(p.id)
-  //       .subscribe(data => {
-  //         p.comments = data;
-  //       });
-  //   });
-  // }
 
   removePost(post: Post, index: number): void {
     console.log(post);
@@ -70,7 +49,7 @@ export class UserPostsComponent{
   }
 
 
-  deleteComment(commentId: number|undefined, postIndex: number, commentIndex: number): void {
+  deleteComment(commentId: number | undefined, postIndex: number, commentIndex: number): void {
     const post = this.posts[postIndex];
 
     this.commentService.deleteComment(commentId)

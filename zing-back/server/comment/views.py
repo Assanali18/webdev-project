@@ -5,10 +5,9 @@ from comment.models import Comment
 from comment.serializers import CommentSerializer
 from notification.models import Notification
 from post.models import Post
-from post.permissions import IsOwnerOrReadOnly
 
 
-class CommentList(generics.ListCreateAPIView):
+class GenericCommentListCreateView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 

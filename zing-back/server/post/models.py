@@ -5,7 +5,7 @@ from users.models import Users
 
 class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='post_images',max_length=1000)
+    image = models.ImageField(upload_to='post_images', max_length=1000)
     body = models.TextField(blank=True, default='')
     user = models.ForeignKey('users.Users', related_name='posts', on_delete=models.CASCADE)
     likes = models.PositiveIntegerField(default=0)

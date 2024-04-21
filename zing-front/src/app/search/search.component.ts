@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {UserService} from "../service/user.service";
+import {SearchService} from "../service/search.service";
 
 @Component({
   selector: 'app-search',
@@ -9,11 +10,11 @@ import {UserService} from "../service/user.service";
 export class SearchComponent {
   users: any[] = [];
   searchInput!:string;
-  constructor(private userService: UserService) {}
+  constructor(private searchService: SearchService) {}
 
   onSearch(query: string) {
     if (query) {
-      this.userService.searchUsers(query).subscribe(data => {
+      this.searchService.searchUsers(query).subscribe(data => {
         this.users = data;
       });
     }

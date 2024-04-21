@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../service/auth.service';
-import {TokenStorageService} from '../../service/token-storage.service';
 import {NotificationService} from '../../service/notification.service';
 import {Router} from "@angular/router";
 
@@ -13,7 +12,6 @@ import {Router} from "@angular/router";
 export class RegisterComponent implements OnInit {
 
   public registerForm!: FormGroup;
-  errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
@@ -38,17 +36,18 @@ export class RegisterComponent implements OnInit {
       password2: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
     });
   }
+
   submit(): void {
     if (this.registerForm.valid && this.registerForm.value.password === this.registerForm.value.password2) {
-      this.authService.registerUser(this.registerForm.value).subscribe(
-        response => {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: (response) => {
           this.notificationService.showSnackBar("Success register")
           this.router.navigate(['/login']);
         },
-        error => {
-          this.notificationService.showSnackBar("No Success register")
+        error: (error) => {
+          this.notificationService.showSnackBar("User with such username exists")
         }
-      );
+      });
     } else {
       this.notificationService.showSnackBar("Form is invalid or passwords are not matched")
     }

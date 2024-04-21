@@ -1,9 +1,9 @@
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { NotificationService } from '../../service/notification.service';
-import { UserService } from '../../service/user.service';
-import { User } from '../../models/User';
+import {Component, Inject} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {NotificationService} from '../../service/notification.service';
+import {UserService} from '../../service/user.service';
+import {User} from '../../models/User';
 
 @Component({
   selector: 'app-edit-user',
@@ -18,47 +18,48 @@ export class EditUserComponent {
     private dialogRef: MatDialogRef<EditUserComponent>,
     private fb: FormBuilder,
     private notificationService: NotificationService,
-    @Inject(MAT_DIALOG_DATA) public data:any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService
-  ){}
+  ) {
+  }
 
-  ngOnInit(){
+  ngOnInit() {
     this.profileEditForm = this.createProfileForm();
   }
 
-  createProfileForm(): FormGroup{
+  createProfileForm(): FormGroup {
     return this.fb.group({
       firstName: [
         this.data.user.first_name,
         Validators.compose([Validators.required])
       ],
-      lastName:[
+      lastName: [
         this.data.user.last_name,
         Validators.compose([Validators.required])
       ],
-      bio:[
+      bio: [
         this.data.user.bio,
         Validators.compose([Validators.required])
       ],
     });
   }
 
-  submit(){
+  submit() {
     this.userService.updateUser(this.updateUser())
-    .subscribe(()=>{
-      this.notificationService.showSnackBar('User updated succesfully');
-      this.dialogRef.close();
-    })
+      .subscribe(() => {
+        this.notificationService.showSnackBar('User updated succesfully');
+        this.dialogRef.close();
+      })
   }
 
-  private updateUser():User{
+  private updateUser(): User {
     this.data.user.first_name = this.profileEditForm.value.firstName;
     this.data.user.last_name = this.profileEditForm.value.lastName;
     this.data.user.bio = this.profileEditForm.value.bio;
     return this.data.user;
   }
 
-  closeDialog(){
+  closeDialog() {
     this.dialogRef.close();
   }
 }

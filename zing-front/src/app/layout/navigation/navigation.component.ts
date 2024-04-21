@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import { User } from '../../models/User';
-import { TokenStorageService } from '../../service/token-storage.service';
-import { UserService } from '../../service/user.service';
+import {User} from '../../models/User';
+import {TokenStorageService} from '../../service/token-storage.service';
+import {UserService} from '../../service/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -32,12 +32,8 @@ export class NavigationComponent implements OnInit{
     }
   }
 
-isLogged(){
-    return !!this.tokenStorage.getUserId();
-}
   logout(){
     this.tokenStorage.logOut();
-
     this.router.navigate(['/login']);
   }
 

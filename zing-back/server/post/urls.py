@@ -1,9 +1,12 @@
 from django.urls import path
-from . import views
 
+from comment.views import GenericCommentListCreateView
+from .views import like_post, GenericPostCreateListView, GenericPostDetailView
 
+app_name = 'api/posts/'
 urlpatterns = [
-    # code omitted for brevity
-    path('posts/', views.PostList.as_view()),
-    path('posts/<int:pk>/', views.PostDetail.as_view()),
+    path('', GenericPostCreateListView.as_view(), name='post-list-create'),
+    path('<int:pk>', GenericPostDetailView.as_view(), name='post-retrieve-update-delete'),
+    path('<int:pk>/like/', like_post, name='like-post'),
+    path('<int:pk>/comments/', GenericCommentListCreateView.as_view(), name='comment-list-create'),
 ]

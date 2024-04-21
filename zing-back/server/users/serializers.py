@@ -1,9 +1,7 @@
-from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from rest_framework import serializers
 
 from friends.models import Friendship
-from friends.serializers import FriendSerializer
 from .models import Users
 
 
@@ -14,8 +12,9 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Users
-        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email', 'posts', 'comments', 'friends')
-        read_only_fields = ('username', )
+        fields = (
+        'id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email', 'posts', 'comments', 'friends')
+        read_only_fields = ('username',)
 
     def get_friends(self, obj):
         friends = Friendship.objects.filter(Q(user=obj) | Q(friend=obj)).distinct()
@@ -28,7 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserSignUpSerializer(serializers.ModelSerializer):
-
     password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
     class Meta:
