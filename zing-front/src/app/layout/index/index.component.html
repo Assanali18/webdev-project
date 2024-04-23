@@ -1,12 +1,9 @@
 <div *ngIf="isPostsLoaded && isUserDataLoaded" class="index-page">
     <mat-card class="post-card" *ngFor="let post of posts; let i = index">
-      <mat-card-header style="text-align: left">
-        <div mat-card-avatar class="example-header-image"></div>
-      </mat-card-header>
+      <h2>{{post.user}}</h2>
       <div class="image">
         <img mat-card-image [src]="post.image" alt="post image">
       </div>
-      <mat-card-subtitle align="start">Posted by {{post.user}}</mat-card-subtitle>
       <mat-card-content>
         <p>{{post.body}}</p>
       </mat-card-content>

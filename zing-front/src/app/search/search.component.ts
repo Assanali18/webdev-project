@@ -16,6 +16,8 @@ export class SearchComponent {
     if (query) {
       this.searchService.searchUsers(query).subscribe(data => {
         this.users = data;
+        console.log(this.users);
+        
       });
     }
   }

@@ -1,38 +1,46 @@
 <div class="register-page">
-    <h2>Register</h2>
-    <p>Already have an account?  <a routerLink="/login">Sign in</a></p>
+
     <form [formGroup]="registerForm">
+      <h2>Sign up</h2>
       <div class="justify-content-center">
         <mat-form-field appearance="outline">
-          <mat-label>Email Address</mat-label>
-          <input matInput
-                 formControlName="email">
-        </mat-form-field>
-      </div>
-      <div class="justify-content-center">
-        <mat-form-field appearance="outline">
+          <img src="../../../assets/img/icons/reg1.svg" class="reg-icon" alt="reg1">
           <mat-label>Username</mat-label>
           <input matInput
                  formControlName="username">
         </mat-form-field>
       </div>
       <div class="justify-content-center">
+
         <mat-form-field appearance="outline">
+          <img src="../../../assets/img/icons/reg1.svg" class="reg-icon" alt="reg1">
           <mat-label>First Name</mat-label>
           <input matInput
                  formControlName="first_name">
         </mat-form-field>
       </div>
       <div class="justify-content-center">
+
         <mat-form-field appearance="outline">
+          <img src="../../../assets/img/icons/reg1.svg" class="reg-icon" alt="reg1">
           <mat-label>Last Name</mat-label>
           <input matInput
                  formControlName="last_name">
         </mat-form-field>
       </div>
+      <div class="justify-content-center">
+        <mat-form-field appearance="outline">
+          <img src="../../../assets/img/icons/reg2.svg" class="reg-icon" alt="reg1">
+          <mat-label>Email Address</mat-label>
+          <input matInput
+                 formControlName="email">
+        </mat-form-field>
+      </div>
+
 
       <div class="justify-content-center">
         <mat-form-field appearance="outline">
+          <img src="../../../assets/img/icons/reg4.svg" class="reg-icon" alt="reg1">
           <mat-label>Password</mat-label>
           <input type="password" matInput
                  formControlName="password">
@@ -40,13 +48,16 @@
       </div>
       <div class="justify-content-center">
         <mat-form-field appearance="outline">
+          <img src="../../../assets/img/icons/reg4.svg" class="reg-icon" alt="reg1">
           <mat-label>Confirm password</mat-label>
           <input type="password" matInput
                  formControlName="password2">
         </mat-form-field>
       </div>
 
-      <button style="width: 5rem" [disabled]="registerForm.invalid" (click)="submit()" mat-flat-button color="primary">
+      <p class="question">Already have an account?  <a routerLink="/login">Sign in Now! </a></p>
+
+      <button [disabled]="registerForm.invalid" (click)="submit()" mat-flat-button color="primary">
         Register
       </button>
 

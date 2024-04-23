@@ -1,13 +1,17 @@
-<mat-toolbar color="primary">
-  <div *ngIf="isLoggedIn" class="d-flex flex-row mb-3">
-    <div class="p-2"><a  class="btn btn-primary" [routerLink]="['/profile']">Profile</a></div>
-    <div class="p-2"><a  class="btn btn-primary" [routerLink]="['/main']">Posts</a></div>
-    <div class="p-2"> <a class="btn btn-primary"  (click) = "logout()">Logout</a></div>
-    <div class="p-2"> <a class="btn btn-primary"  [routerLink]="['/notifications']">Notifications</a></div>
-    <div class="p-2"> <a class="btn btn-primary"  [routerLink]="['/search']">Search</a></div>
-    <span class="spacer"></span>
-    <h3 *ngIf="isDataLoaded">{{this.user.first_name}} {{this.user.last_name}}</h3>
+<div class="header">
+  <div class="container">
+    <a [routerLink]="['/main']" class="logo">
+      <img src="../../../assets/img/icons/logo.svg" alt="logo">
+    </a>
+    <div *ngIf="isLoggedIn" class="d-flex flex-row mb-3">
+      <div class="p-2"> <a [routerLink]="['/search']"><img class="nav-icon" src="../../../assets/img/icons/header1.svg" alt="header"></a></div>
+      <div class="p-2"> <a  [routerLink]="['/notifications']"><img class="nav-icon" src="../../../assets/img/icons/header2.svg" alt="header"></a></div>
+      <div class="p-2"><a [routerLink]="['/profile']"><img class="nav-icon" src="../../../assets/img/icons/header4.svg" alt="header"></a></div>
+      <div class="p-2"> <a  (click) = "logout()"><img class="nav-icon" src="../../../assets/img/icons/header5.svg" alt="header"></a></div>
+      <span class="spacer"></span>
+    </div>
   </div>
 
-</mat-toolbar>
+</div>
+
 

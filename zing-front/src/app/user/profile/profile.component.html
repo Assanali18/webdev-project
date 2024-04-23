@@ -1,14 +1,15 @@
 <div *ngIf="isUserDataLoaded" class="user-profile">
-
-    <h1>Profile</h1>
     <div style="text-align: right">
-      <button mat-flat-button color="primary" (click)="openEditDialog()">Edit Info</button>
-      <button mat-flat-button color="primary" (click)="openFriendDialog()">Friend List</button>
+      <button class="profile-btn" (click)="openEditDialog()">Edit Info</button>
+      <button class="profile-btn" (click)="openFriendDialog()">Friend List</button>
     </div>
 
     <div style="padding-top: 2rem" class="row">
       <div class="col">
-        <img class="profile-image" [src]="previewImgURL || user.profile_pic || 'https://www.missingdogsuk.co.uk/wp-content/plugins/wp-job-manager-resumes/assets/images/candidate.png'" alt="user image">
+        <div class="profile-image">
+          <img  [src]="previewImgURL || user.profile_pic || 'https://www.missingdogsuk.co.uk/wp-content/plugins/wp-job-manager-resumes/assets/images/candidate.png'" alt="user image">
+        </div>
+        
 
         <input type="file"
                style="display: none"

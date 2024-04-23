@@ -4,4 +4,22 @@
     width: 200px;
     height: 200px;
   }
-  
+
+  .post-image img{
+    width: 100%;
+  }
+  .profile-btn{
+    border: none;
+    background-color: #E5C8B2;
+    color: #fff;
+    border-radius: 10px;
+    margin-left: 20px;
+    font-size: 20px;
+    font-family: 'Montserrat';
+    padding: 12px 30px;
+    transition: all .3s;
+  }
+
+  .profile-btn:disabled{
+    background-color: #8b8b8b;
+  }

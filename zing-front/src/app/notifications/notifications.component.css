@@ -4,3 +4,24 @@ img{
 ul{
   list-style: none;
 }
+
+
+ul{
+  background-color: #f6e1d0;
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-btn{
+  border: none;
+  background-color: #E5C8B2;
+  color: #fff;
+  border-radius: 10px;
+  margin-left: 20px;
+  font-size: 20px;
+  font-family: 'Montserrat';
+  padding: 12px 30px;
+}

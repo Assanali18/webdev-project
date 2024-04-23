@@ -20,3 +20,28 @@ a {
   }
 
 }
+
+.header{
+  background-color: #F7EEE8;
+
+}
+
+.header .container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 120px;
+}
+
+.logo{
+  width: 138px;
+}
+
+.logo img{
+  width: 100%;
+}
+
+.nav-icon{
+  width: 36px;
+  height: 36px;
+}

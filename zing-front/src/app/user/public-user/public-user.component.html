@@ -1,10 +1,10 @@
 <div *ngIf="isUserDataLoaded; else loading" class="user-profile">
   <h1>Profile</h1>
   <div style="text-align: right">
-    <button  *ngIf="!friendStatus.is_friend && !friendStatus.friend_request_sent" mat-flat-button color="primary" (click)="friendRequest(user.id)">Add friend</button>
-    <button *ngIf="friendStatus.is_friend"  mat-flat-button color="primary" disabled>Already your friend</button>
-    <button *ngIf="friendStatus.friend_request_sent"  mat-flat-button color="primary" disabled>Sent</button>
-    <button mat-flat-button color="primary" (click)="openFriendDialog()">Friend List</button>
+    <button  *ngIf="!friendStatus.is_friend && !friendStatus.friend_request_sent" class="profile-btn" (click)="friendRequest(user.id)">Add friend</button>
+    <button *ngIf="friendStatus.is_friend"  class="profile-btn" disabled>Already your friend</button>
+    <button *ngIf="friendStatus.friend_request_sent"  class="profile-btn" disabled>Sent</button>
+    <button class="profile-btn" (click)="openFriendDialog()">Friend List</button>
   </div>
   <div style="padding-top: 2rem" class="row">
     <div class="col">

@@ -1,7 +1,15 @@
 <div *ngIf="friends.length;else no_friends">
   <ul *ngFor="let friend of friends">
     <li>
-      <img src="http://127.0.0.1:8000/{{friend.profile_pic}}">
+      <div class="avatar">
+        <div *ngIf="friend.profile_pic == null">
+          <img src="../../assets/img/default.png" alt="avatar">
+        </div>
+
+        <div *ngIf="friend.profile_pic != null">
+          <img src="http://127.0.0.1:8000/{{friend.profile_pic}}" alt="avatar">
+        </div>
+      </div>
       <p (click)="closeModal()" [routerLink]="['/users', friend.username]">{{friend.username}} </p>
     </li>
   </ul>

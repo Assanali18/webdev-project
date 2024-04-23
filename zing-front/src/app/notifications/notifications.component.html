@@ -1,19 +1,22 @@
-<ul *ngFor="let notification of notifications; let i = index">
-  <li>{{notification.from_user.username}} {{notification.type}}
-    <span *ngIf="notification.type ==='comment'">
-      your post: {{notification.comment_text}}
-    </span>
-    <span *ngIf="notification.type ==='like'">
-      your post
-    </span>
-
-    at {{notification.created | date: 'medium'}}
-  </li>
-
-  <img *ngIf="notification.type === 'like' || notification.type === 'comment' ; else acceptButton" [src]="notification.post.image" alt="post image">
-
-  <ng-template #acceptButton  >
-      <button *ngIf="notification.type === 'follow'" (click)="acceptRequest(notification.from_user.id, i)">Accept</button>
-  </ng-template>
-
-</ul>
+<div class="container">
+  <ul *ngFor="let notification of notifications; let i = index">
+    <li>{{notification.from_user.username}} {{notification.type}}
+      <span *ngIf="notification.type ==='comment'">
+        your post: {{notification.comment_text}}
+      </span>
+      <span *ngIf="notification.type ==='like'">
+        your post
+      </span>
+  
+      {{notification.created | date: 'medium'}}
+    </li>
+  
+    <img *ngIf="notification.type === 'like' || notification.type === 'comment' ; else acceptButton" [src]="notification.post.image" alt="post image">
+  
+    <ng-template #acceptButton  >
+        <button *ngIf="notification.type === 'follow'" class="profile-btn" (click)="acceptRequest(notification.from_user.id, i)">Accept</button>
+    </ng-template>
+  
+  </ul>
+  
+</div>

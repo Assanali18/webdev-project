@@ -34,6 +34,7 @@ export class IndexComponent implements OnInit {
         this.posts = data;
         this.getCommentsToPosts(this.posts);
         this.isPostsLoaded = true;
+        
       });
 
     const userId = this.tokenService.getUserId();
