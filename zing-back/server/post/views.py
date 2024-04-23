@@ -8,12 +8,19 @@ from .models import Post
 from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer
 
+from rest_framework.pagination import PageNumberPagination
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
 
 class GenericPostCreateListView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
+    pagination_class = StandardResultsSetPagination
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

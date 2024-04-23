@@ -3,12 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {Post} from '../models/Post';
 import {Observable} from 'rxjs';
 
-const POST_API = 'http://localhost:8000/api/posts/';
+const POST_API = 'http://localhost:8000/api/posts';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+  getPosts(currentPage: number) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpClient) {
   }
@@ -20,8 +23,8 @@ export class PostService {
     return this.http.post(POST_API, formData);
   }
 
-  getAllPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(POST_API);
+  getAllPosts(page: number): Observable<any> {
+    return this.http.get<Post[]>(`${POST_API}?page=${page}`);
   }
 
   deletePost(post: Post): Observable<any> {

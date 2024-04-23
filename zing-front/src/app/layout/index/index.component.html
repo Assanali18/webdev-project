@@ -1,6 +1,6 @@
-<div *ngIf="isPostsLoaded && isUserDataLoaded" class="index-page">
+<div class="index-page">
     <mat-card class="post-card" *ngFor="let post of posts; let i = index">
-      <h2>{{post.user}}</h2>
+      <h2 [routerLink]="['/users', post.user]">{{post.user}}</h2>
       <div class="image">
         <img mat-card-image [src]="post.image" alt="post image">
       </div>
@@ -28,4 +28,10 @@
       </mat-form-field>
 
     </mat-card>
+
+    <div #marker></div>
+
+    <div *ngIf="isLoading">
+      <p>Loading more posts...</p>
+    </div>
   </div>

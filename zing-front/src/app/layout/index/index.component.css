@@ -83,3 +83,7 @@ a{
 .mdc-card__actions{
   padding: 0;
 }
+
+h2{
+  cursor: pointer;
+}
