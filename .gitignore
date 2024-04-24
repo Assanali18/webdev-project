@@ -7,7 +7,7 @@
 /bazel-out
 
 # Virtual Environment
-zing-back/myvenv
+zing-back/myenv
 
 # Node
 zing-front/node_modules

@@ -8,14 +8,14 @@
         your post
       </span>
   
-      {{notification.created | date: 'medium'}}
+      at {{notification.created | date: 'medium'}}
     </li>
   
     <img *ngIf="notification.type === 'like' || notification.type === 'comment' ; else acceptButton" [src]="notification.post.image" alt="post image">
   
-    <ng-template #acceptButton  >
-        <button *ngIf="notification.type === 'follow'" class="profile-btn" (click)="acceptRequest(notification.from_user.id, i)">Accept</button>
-    </ng-template>
+    <ng-template #acceptButton>
+      <button class="profile-btn" (click)="acceptRequest(notification.from_user.id, i, notification.id)">Accept</button>
+  </ng-template>
   
   </ul>
   

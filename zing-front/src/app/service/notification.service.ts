@@ -24,4 +24,7 @@ export class NotificationService {
   getNotifications(): Observable<Notification[]> {
     return this.http.get<Notification[]>(NOTIF_URL);
   }
+  deleteNotifications(notifId:number): Observable<any>{
+    return this.http.delete(`${NOTIF_URL}${notifId}/delete/`)
+  }
 }

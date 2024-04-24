@@ -50,5 +50,9 @@ export class UserService {
   getFriendRequestStatus(username:string): Observable<FriendStatus> {
     return this.http.get<FriendStatus>(`${USER_API}${username}/friendship-status/`)
   }
+  updateFriendRequestStatus(username:string, accepted:boolean){
+    const data = { username: username, accepted: accepted };
+    return this.http.post<FriendStatus>(`${USER_API}${username}/friendship-status/`, data);
+  }
 
 }

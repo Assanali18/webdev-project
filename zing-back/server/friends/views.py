@@ -1,8 +1,8 @@
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -69,32 +69,54 @@ class FriendListView(generics.ListAPIView):
         return Users.objects.filter(id__in=friends_ids).distinct()
 
 
-@api_view(["GET"])
-def get_friend_status(request, username):
+@api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
+def friend_status(request, username):
     current_user = request.user
 
-    try:
-        target_user = Users.objects.get(username=username)
-    except Users.DoesNotExist:
-        raise Http404
+    if request.method == 'GET':
+        try:
+            target_user = Users.objects.get(username=username)
+        except Users.DoesNotExist:
+            raise Http404
 
-    is_friend = Friendship.objects.filter(
-        (Q(user=current_user) & Q(friend=target_user)) |
-        (Q(user=target_user) & Q(friend=current_user))
-    ).exists()
+        is_friend = Friendship.objects.filter(
+            (Q(user=current_user) & Q(friend=target_user)) |
+            (Q(user=target_user) & Q(friend=current_user))
+        ).exists()
 
-    friend_request_sent = FriendRequest.objects.filter(
-        from_user=current_user, to_user=target_user, is_accepted=False
-    ).exists()
+        friend_request_sent = FriendRequest.objects.filter(
+            from_user=current_user, to_user=target_user, is_accepted=False
+        ).exists()
 
-    friend_request_received = FriendRequest.objects.filter(
-        from_user=target_user, to_user=current_user, is_accepted=False
-    ).exists()
+        friend_request_received = FriendRequest.objects.filter(
+            from_user=target_user, to_user=current_user, is_accepted=False
+        ).exists()
 
-    return Response({
-        'is_friend': is_friend,
-        'friend_request_sent': friend_request_sent,
-        'friend_request_received': friend_request_received
-    })
+        return Response({
+            'is_friend': is_friend,
+            'friend_request_sent': friend_request_sent,
+            'friend_request_received': friend_request_received
+        })
+
+    elif request.method == 'POST':
+        data = request.data
+        username = data.get('username')
+        accepted = data.get('accepted')
+
+        try:
+            target_user = Users.objects.get(username=username)
+            if accepted:
+                fr = FriendRequest.objects.get(from_user=target_user, to_user=current_user, is_accepted=False)
+                fr.accept()
+                return JsonResponse({'status': 'accepted'})
+            else:
+                FriendRequest.objects.filter(from_user=target_user, to_user=current_user, is_accepted=False).delete()
+                return JsonResponse({'status': 'rejected'})
+        except Users.DoesNotExist:
+            raise Http404
+        except FriendRequest.DoesNotExist:
+            return JsonResponse({'error': 'Friend request not found'}, status=404)
+
 
 
