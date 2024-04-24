@@ -6,8 +6,11 @@
 /out-tsc
 /bazel-out
 
+# Virtual Environment
+zing-back/myvenv
+
 # Node
-/node_modules
+zing-front/node_modules
 npm-debug.log
 yarn-error.log
 
@@ -29,14 +32,15 @@ yarn-error.log
 .history/*
 
 # Miscellaneous
-/.angular/cache
+zing-front/.angular/cache
 .sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
+zing-front/connect.lock
+zing-front/coverage
+zing-front/libpeerconnection.log
 testem.log
-/typings
+zing-front/typings
 
 # System files
 .DS_Store
 Thumbs.db
+
