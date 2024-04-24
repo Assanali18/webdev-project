@@ -152,7 +152,9 @@ color: red;
 }
 
 .mat-mdc-card{
-padding: 20px 80px 0 80px;
+  padding: 20px 80px 0 80px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, .3);
+  border-radius: 20px
 }
 
 .image{

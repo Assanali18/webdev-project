@@ -17,4 +17,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body{
   background-color: #F7EEE8;
+  padding-top: 110px;
+}
+
+.index-page{
+  padding-bottom: 20px;
 }
