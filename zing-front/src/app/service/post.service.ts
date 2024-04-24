@@ -20,7 +20,7 @@ export class PostService {
     const formData = new FormData();
     formData.append('body', body);
     formData.append('image', file, file.name);
-    return this.http.post(POST_API, formData);
+    return this.http.post(`${POST_API}/add/`, formData);
   }
 
   getAllPosts(page: number): Observable<any> {
