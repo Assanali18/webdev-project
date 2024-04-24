@@ -1,37 +1,39 @@
 <div class="index-page">
-    <mat-card class="post-card" *ngFor="let post of posts; let i = index">
-      <h2 [routerLink]="['/users', post.user]">{{post.user}}</h2>
-      <div class="image">
-        <img mat-card-image [src]="post.image" alt="post image">
-      </div>
-      <mat-card-content>
-        <p>{{post.body}}</p>
-      </mat-card-content>
+  <mat-card class="post-card" *ngFor="let post of posts; let i = index">
 
-      <mat-card-actions align="start">
+    <h2 [routerLink]="['/users', post.user]">{{post.user}}</h2>
 
-        <button *ngIf="isUserDataLoaded" mat-button (click)="likePost(i)"  >
-          <mat-icon [ngClass]="{'liked': post.userLiked.includes(user.username)}">favorite</mat-icon> Like</button>
-        <p>{{post.userLiked.length}}</p>
-      </mat-card-actions>
-
-
-
-      <div style="text-align: left">
-        <p *ngFor="let comment of post.comments"><span style="font-weight: 500">{{comment.user}}</span>: {{comment.body}}</p>
-      </div>
-
-      <mat-form-field class="w-100">
-        <mat-label>Leave a comment...</mat-label>
-        <input  (keyup.enter)="postComment(message, i)" [(ngModel)]="message" matInput  maxlength="128">
-        <mat-hint align="end" *ngIf="message">{{message.length}} / 128</mat-hint>
-      </mat-form-field>
-
-    </mat-card>
-
-    <div #marker></div>
-
-    <div *ngIf="isLoading">
-      <p>Loading more posts...</p>
+    <div class="image">
+      <img mat-card-image [src]="post.image" alt="post image">
     </div>
+    <mat-card-content>
+      <p>{{post.body}}</p>
+    </mat-card-content>
+
+    <mat-card-actions align="start">
+
+      <button *ngIf="isUserDataLoaded" mat-button (click)="likePost(i)"  >
+        <mat-icon [ngClass]="{'liked': post.userLiked.includes(user.username)}">favorite</mat-icon> Like</button>
+      <p>{{post.userLiked.length}}</p>
+    </mat-card-actions>
+
+    <hr>
+
+    <div style="text-align: left">
+      <p *ngFor="let comment of post.comments"><span style="font-weight: 500">{{comment.user}}</span>: {{comment.body}}</p>
+    </div>
+
+    <mat-form-field class="w-100">
+      <mat-label>Leave a comment...</mat-label>
+      <input  (keyup.enter)="postComment(message, i)" [(ngModel)]="message" matInput  maxlength="128">
+      <mat-hint align="end" *ngIf="message">{{message.length}} / 128</mat-hint>
+    </mat-form-field>
+
+  </mat-card>
+
+  <div #marker></div>
+
+  <div *ngIf="isLoading">
+    <p>Loading more posts...</p>
   </div>
+</div>

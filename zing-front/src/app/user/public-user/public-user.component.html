@@ -1,17 +1,12 @@
 <div *ngIf="isUserDataLoaded; else loading" class="user-profile">
   <h1>Profile</h1>
-  <div style="text-align: right">
-    <button  *ngIf="!friendStatus.is_friend && !friendStatus.friend_request_sent" class="profile-btn" (click)="friendRequest(user.id)">Add friend</button>
-    <button *ngIf="friendStatus.is_friend"  class="profile-btn" disabled>Already your friend</button>
-    <button *ngIf="friendStatus.friend_request_sent"  class="profile-btn" disabled>Sent</button>
-    <button class="profile-btn" (click)="openFriendDialog()">Friend List</button>
-  </div>
+
   <div style="padding-top: 2rem" class="row">
     <div class="col">
       <div class="profile-image">
         <img class="profile-image" [src]="user.profile_pic || 'https://www.missingdogsuk.co.uk/wp-content/plugins/wp-job-manager-resumes/assets/images/candidate.png'" alt="user image">
       </div>
-      
+
     </div>
     <div class="col" style="text-align: left">
 
@@ -19,6 +14,14 @@
 
       <h3 style="font-style: italic">{{user.first_name}} {{user.last_name}}</h3>
       <p>{{user.bio}}</p>
+
+      <div style="text-align: left" class="profile-btns">
+        <button  *ngIf="!friendStatus.is_friend && !friendStatus.friend_request_sent" class="profile-btn" (click)="friendRequest(user.id)">Add friend</button>
+        <button *ngIf="friendStatus.is_friend"  class="profile-btn" disabled>Already your friend</button>
+        <button *ngIf="friendStatus.friend_request_sent"  class="profile-btn" disabled>Sent</button>
+        <button class="profile-btn" (click)="openFriendDialog()">Friend List</button>
+      </div>
+
     </div>
 
     <mat-divider style="margin: 2rem 0"></mat-divider>
@@ -61,7 +64,7 @@
 
 
   </div>
-  
+
 </div>
 
 <ng-template #loading>
