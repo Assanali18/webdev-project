@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../models/User';
 import {TokenStorageService} from '../../service/token-storage.service';
 import {UserService} from '../../service/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css'
 })
+
 export class NavigationComponent implements OnInit{
+
+
   isLoggedIn:boolean = false;
   isDataLoaded:boolean = false;
   user!: User;

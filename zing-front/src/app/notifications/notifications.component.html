@@ -1,5 +1,6 @@
 <div class="container">
-  <ul *ngFor="let notification of notifications; let i = index">
+  
+  <ul   *ngFor="let notification of notifications; let i = index">
     <li>{{notification.from_user.username}} {{notification.type}}
       <span *ngIf="notification.type ==='comment'">
         your post: {{notification.comment_text}}
@@ -18,5 +19,5 @@
   </ng-template>
   
   </ul>
-  
+
 </div>
