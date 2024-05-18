@@ -4,10 +4,11 @@ from .models import Users
 
 
 class UserSerializer(serializers.ModelSerializer):
+    posts = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Users
-        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'bio', 'profile_pic', 'email', 'posts')
         read_only_fields = ('username', )
 
 
@@ -25,7 +26,9 @@ class UserSignUpSerializer(serializers.ModelSerializer):
     def save(self):
         user = Users(
             email=self.validated_data['email'],
-            username=self.validated_data['username']
+            username=self.validated_data['username'],
+            first_name=self.validated_data['first_name'],
+            last_name=self.validated_data['last_name']
         )
         password = self.validated_data['password']
         password2 = self.validated_data['password2']

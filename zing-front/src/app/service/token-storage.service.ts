@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-const TOKEN_KEY = 'auth-token';
+const TOKEN_KEY = 'userToken';
 const USER_KEY = 'userData';
 
 @Injectable({
@@ -12,33 +12,41 @@ export class TokenStorageService {
   }
 
   public saveToken(token: string): void {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, token);
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.setItem(TOKEN_KEY, token);
   }
 
+
   public getToken() {
-    return sessionStorage.getItem(TOKEN_KEY);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem(TOKEN_KEY);
+    }
+    return undefined;
   }
 
   public saveUser(user:any): void {
-    localStorage.removeItem(USER_KEY);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem(USER_KEY);
+    }
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   public getUserId(){
-    const userDataString = localStorage.getItem('userData');
-    let userId
-    if (userDataString) {
-      const userData = JSON.parse(userDataString);
-      userId = userData.id;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const userDataString = localStorage.getItem('userData');
+      let userId
+      if (userDataString) {
+        const userData = JSON.parse(userDataString);
+        userId = userData.id;
+      }
+
+      return userId;
     }
 
-    return userId;
   }
 
 
   logOut(): void {
-    window.sessionStorage.clear();
-    window.location.reload();
+    localStorage.clear();
   }
 }

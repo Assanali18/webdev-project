@@ -4,10 +4,12 @@
         <div mat-card-avatar class="example-header-image"></div>
 <!--        <mat-card-title>{{post.title}}</mat-card-title>-->
       </mat-card-header>
-      <img mat-card-image [src]="post.image" alt="post image">
-      <mat-card-subtitle align="start">Posted by {{post.author}}</mat-card-subtitle>
+      <div class="image">
+        <img mat-card-image [src]="post.image" alt="post image">
+      </div>
+      <mat-card-subtitle align="start">Posted by {{post.user}}</mat-card-subtitle>
       <mat-card-content>
-        <p>{{post.title}}</p>
+        <p>{{post.body}}</p>
       </mat-card-content>
 
       <mat-card-actions align="start">

@@ -32,43 +32,36 @@ export class AddPostComponent implements OnInit {
 
   createPostForm(): FormGroup {
     return this.fb.group({
-      title: ['', Validators.compose([Validators.required])],
-      caption: ['', Validators.compose([Validators.required])],
-      location: ['', Validators.compose([Validators.required])],
+      body: ['', Validators.compose([Validators.required])],
     });
   }
 
-  // submit(): void {
+  submit(): void {
+    this.postService.createPost(this.postForm.value.body, this.selectedFile).subscribe(data => {
+      this.createdPost = data;
+      console.log(data);
+      this.isPostCreated = true;
+      this.notificationService.showSnackBar('Post created successfully');
+      this.router.navigate(['/profile']);
+      // if (this.createdPost.id != null) {
+      //   this.imageUploadService.uploadImageToPost(this.selectedFile, this.createdPost.id)
+      //     .subscribe(() => {
+      //       this.notificationService.showSnackBar('Post created successfully');
+      //
+      //       this.router.navigate(['/profile']);
+      //     });
+      // }
+    });
+  }
   //
-  //   this.postService.createPost({
-  //     title: this.postForm.value.title,
-  //     id: 0,
-  //     // usersLiked: [],
-  //     // comments: [],
-  //     likes: 0
-  //   }).subscribe(data => {
-  //     this.createdPost = data;
-  //     console.log(data);
-  //
-  //     if (this.createdPost.id != null) {
-  //       this.imageUploadService.uploadImageToPost(this.selectedFile, this.createdPost.id)
-  //         .subscribe(() => {
-  //           this.notificationService.showSnackBar('Post created successfully');
-  //           this.isPostCreated = true;
-  //           this.router.navigate(['/profile']);
-  //         });
-  //     }
-  //   });
-  // }
-  //
-  // onFileSelected(event:any): void {
-  //   this.selectedFile = event.target.files[0];
-  //
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(this.selectedFile);
-  //   reader.onload = (e) => {
-  //     this.previewImgURL = reader.result;
-  //   };
-  // }
+  onFileSelected(event:any): void {
+    this.selectedFile = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.readAsDataURL(this.selectedFile);
+    reader.onload = (e) => {
+      this.previewImgURL = reader.result;
+    };
+  }
 
 }
